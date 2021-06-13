@@ -3,7 +3,10 @@ import { useRouter } from "next/router";
 import { Button, Modal, Form, Input, notification } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 
+import { useCreateNewPlaylist } from "../../actions";
+
 export default function CreatePlaylistModal() {
+  const createNewPlaylist = useCreateNewPlaylist();
   const [form] = Form.useForm();
   const router = useRouter();
 
@@ -24,12 +27,12 @@ export default function CreatePlaylistModal() {
 
     setLoading(true);
 
-    setTimeout(() => {
-      setLoading(false);
-      setVisible(false);
+    try {
       form.resetFields();
 
-      console.log(values);
+      setVisible(false);
+
+      const createdId = await createNewPlaylist(values);
 
       notification.success({
         key: "playlist_created",
@@ -40,7 +43,7 @@ export default function CreatePlaylistModal() {
             type="primary"
             onClick={() => {
               notification.close("playlist_created");
-              router.push("/day");
+              router.push(`/day/${createdId}`);
             }}
           >
             Go to your playlist
@@ -48,7 +51,17 @@ export default function CreatePlaylistModal() {
         ),
         duration: null
       });
-    }, 5000);
+    } catch (e) {
+      notification.error({
+        key: "playlist_error",
+        message: "Oh snap!",
+        description:
+          "There was an error while creating your playlist. Please contact the monkey developer 🐒 .",
+        duration: 5
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleCancel = () => {
