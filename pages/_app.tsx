@@ -4,7 +4,20 @@ import type { AppProps /*, AppContext */ } from "next/app";
 import "antd/dist/antd.css";
 
 function JuwuobbyAppProvider({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+  return (
+    <>
+      <Component {...pageProps} />
+      <style jsx global>{`
+        html,
+        body {
+          margin: 0;
+          padding: 0;
+          width: 100%;
+          min-height: 100%;
+        }
+      `}</style>
+    </>
+  );
 }
 
 // Only uncomment this method if you have blocking data requirements for
