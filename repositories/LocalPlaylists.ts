@@ -8,7 +8,7 @@ export async function getLocalPlaylists(): Promise<Partial<Playlist>[]> {
 }
 
 export async function saveLocalPlaylists(
-  playlists: Promise<Partial<Playlist>[]>
-): Promise<undefined> {
+  playlists: Partial<Playlist>[]
+): Promise<void> {
   await set(PLAYLIST_LIST, playlists);
 }

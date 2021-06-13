@@ -7,7 +7,7 @@ const localPlaylists = atom([]);
 
 export const asyncLocalPlaylists = atom(
   (get) => get(localPlaylists),
-  (get, set, playlists: Partial<Playlist[]>) => {
+  (get, set, playlists: Partial<Playlist>[]) => {
     const persist = async () => {
       await LocalPlaylistsRepository.saveLocalPlaylists(playlists);
     };
@@ -16,6 +16,12 @@ export const asyncLocalPlaylists = atom(
     set(localPlaylists, playlists);
   }
 );
-localPlaylists.onMount = async (setLocalPlaylists) => {
-  setLocalPlaylists((await LocalPlaylistsRepository.getLocalPlaylists()) || []);
+localPlaylists.onMount = (setLocalPlaylists) => {
+  const setInitialValue = async () => {
+    setLocalPlaylists(
+      (await LocalPlaylistsRepository.getLocalPlaylists()) || []
+    );
+  };
+
+  setInitialValue();
 };

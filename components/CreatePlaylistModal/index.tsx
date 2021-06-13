@@ -28,11 +28,10 @@ export default function CreatePlaylistModal() {
     setLoading(true);
 
     try {
-      form.resetFields();
+      const createdId = await createNewPlaylist(values);
 
       setVisible(false);
-
-      const createdId = await createNewPlaylist(values);
+      form.resetFields();
 
       notification.success({
         key: "playlist_created",
@@ -43,7 +42,7 @@ export default function CreatePlaylistModal() {
             type="primary"
             onClick={() => {
               notification.close("playlist_created");
-              router.push(`/day/${createdId}`);
+              router.push(`/playlists/${createdId}`);
             }}
           >
             Go to your playlist
