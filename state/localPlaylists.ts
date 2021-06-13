@@ -26,7 +26,15 @@ localPlaylists.onMount = (setLocalPlaylists) => {
   setInitialValue();
 };
 
-export default function useLocalPlaylists() {
+interface UseLocalPlaylistsMutations {
+  addLocalPlaylist: (newPlaylist: Partial<Playlist>) => void;
+  deleteLocalPlaylistById: (playlistId: PlaylistID) => void;
+}
+
+export default function useLocalPlaylists(): [
+  Partial<Playlist>[],
+  UseLocalPlaylistsMutations
+] {
   const [localPlaylists, setLocalPlaylists] = useAtom(asyncLocalPlaylists);
 
   return [
