@@ -8,3 +8,9 @@ export async function createPlaylist(
 
   return playlist.id;
 }
+
+export async function deletePlaylistById(
+  playlistId: PlaylistID
+): Promise<void> {
+  await db.collection("Playlist").doc(playlistId).delete();
+}

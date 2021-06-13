@@ -1,7 +1,7 @@
-import { atom } from "jotai";
+import { atom, useAtom } from "jotai";
 
 import * as LocalPlaylistsRepository from "../repositories/LocalPlaylists";
-import { Playlist } from "../types";
+import { Playlist, PlaylistID } from "../types";
 
 const localPlaylists = atom([]);
 
@@ -25,3 +25,27 @@ localPlaylists.onMount = (setLocalPlaylists) => {
 
   setInitialValue();
 };
+
+export default function useLocalPlaylists() {
+  const [localPlaylists, setLocalPlaylists] = useAtom(asyncLocalPlaylists);
+
+  return [
+    localPlaylists,
+    {
+      addLocalPlaylist(newPlaylist: Partial<Playlist>) {
+        setLocalPlaylists([...localPlaylists, newPlaylist]);
+      },
+      deleteLocalPlaylistById(playlistId: PlaylistID) {
+        const copy = localPlaylists.slice(0);
+        const indexToDelete = localPlaylists.findIndex(
+          ({ id }) => id === playlistId
+        );
+
+        if (indexToDelete !== -1) {
+          copy.splice(indexToDelete, 1);
+          setLocalPlaylists(copy);
+        }
+      }
+    }
+  ];
+}

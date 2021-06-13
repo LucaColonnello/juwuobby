@@ -1,6 +1,6 @@
 import { Typography } from "antd";
 import CreatePlaylistModal from "../components/CreatePlaylistModal";
-import LocalPlaylistList from "../components/LocalPlaylistList";
+import LocalPlaylistsList from "../components/LocalPlaylistsList";
 
 const { Title } = Typography;
 
@@ -10,7 +10,9 @@ export default function IndexPage() {
       <Title level={2}>⏯ Welcome to Juwuobby</Title>
       <CreatePlaylistModal />
 
-      <LocalPlaylistList />
+      <section className="LocalPlaylistsListContainer">
+        <LocalPlaylistsList />
+      </section>
 
       <style jsx>{`
         .IndexPage {
@@ -19,6 +21,11 @@ export default function IndexPage() {
           justify-content: center;
           align-items: center;
           height: 100vh;
+        }
+
+        .LocalPlaylistsListContainer {
+          margin-top: 16px;
+          width: 60vw;
         }
       `}</style>
     </div>
