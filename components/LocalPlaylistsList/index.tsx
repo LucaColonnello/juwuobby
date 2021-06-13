@@ -36,7 +36,7 @@ export default function LocalPlaylistsList() {
               danger
               type="text"
               size="small"
-              label="Delete playlist"
+              title="Delete playlist"
               icon={<DeleteOutlined />}
               onClick={onDelete(item)}
             />

@@ -9,7 +9,5 @@ export default function useDeletePlaylist() {
   return async function deletePlaylist(playlistId: PlaylistID): Promise<void> {
     await PlaylistsRepository.deletePlaylistById(playlistId);
     deleteLocalPlaylistById(playlistId);
-
-    return playlistId;
   };
 }
