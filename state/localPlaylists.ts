@@ -26,20 +26,24 @@ localPlaylists.onMount = (setLocalPlaylists) => {
   setInitialValue();
 };
 
-interface UseLocalPlaylistsMutations {
+interface UseLocalPlaylistsOps {
   addLocalPlaylist: (newPlaylist: Partial<Playlist>) => void;
   deleteLocalPlaylistById: (playlistId: PlaylistID) => void;
+  getLocalPlaylistById: (playlistId: PlaylistID) => Partial<Playlist>;
 }
 
 export default function useLocalPlaylists(): [
   Partial<Playlist>[],
-  UseLocalPlaylistsMutations
+  UseLocalPlaylistsOps
 ] {
   const [localPlaylists, setLocalPlaylists] = useAtom(asyncLocalPlaylists);
 
   return [
     localPlaylists,
     {
+      getLocalPlaylistById(playlistId: PlaylistID) {
+        return localPlaylists.find(({ id }) => id === playlistId);
+      },
       addLocalPlaylist(newPlaylist: Partial<Playlist>) {
         setLocalPlaylists([...localPlaylists, newPlaylist]);
       },
