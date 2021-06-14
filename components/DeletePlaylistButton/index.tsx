@@ -1,15 +1,18 @@
 import { Button, Modal } from "antd";
+import type { SizeType } from "antd/lib/config-provider/SizeContext";
 import { DeleteOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 
 import useDeletePlaylist from "../../actions/useDeletePlaylist";
 import { Playlist } from "../../types";
 
 interface DeletePlaylistButtonProps {
+  size?: "medium" | "small";
   playlist: Partial<Playlist>;
   onDelete: () => void;
 }
 
 export default function DeletePlaylistButton({
+  size = "small",
   playlist,
   onDelete
 }: DeletePlaylistButtonProps) {
@@ -31,7 +34,7 @@ export default function DeletePlaylistButton({
     <Button
       danger
       type="text"
-      size="small"
+      size={size as Partial<SizeType>}
       title="Delete playlist"
       icon={<DeleteOutlined />}
       onClick={onDeletePressed}
