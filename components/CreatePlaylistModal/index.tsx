@@ -119,16 +119,6 @@ export default function CreatePlaylistModal() {
             <Input disabled={loading} />
           </Form.Item>
           <Form.Item
-            name="secret"
-            label="Secret password"
-            extra="This secret password is for you only. It allows you to control the playlist."
-            rules={[
-              { required: true, message: "Please input the secret password" }
-            ]}
-          >
-            <Input.Password disabled={loading} />
-          </Form.Item>
-          <Form.Item
             name="publicKey"
             label="Public key"
             extra="Give this key to your customers top add songs to the queue"
