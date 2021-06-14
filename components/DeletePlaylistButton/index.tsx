@@ -7,8 +7,8 @@ import { Playlist } from "../../types";
 
 interface DeletePlaylistButtonProps {
   size?: "medium" | "small";
+  onDelete?: () => void;
   playlist: Partial<Playlist>;
-  onDelete: () => void;
 }
 
 export default function DeletePlaylistButton({
