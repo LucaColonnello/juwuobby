@@ -14,7 +14,7 @@ interface DeletePlaylistButtonProps {
 export default function DeletePlaylistButton({
   size = "small",
   playlist,
-  onDelete
+  onDelete = () => {}
 }: DeletePlaylistButtonProps) {
   const deletePlaylist = useDeletePlaylist();
 
