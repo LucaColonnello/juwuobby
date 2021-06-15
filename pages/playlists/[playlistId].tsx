@@ -1,8 +1,10 @@
+import { useMemo } from "react";
 import { useRouter } from "next/router";
 import { Result, Button, PageHeader } from "antd";
 
 import SplitPane from "../../components/SplitPane";
 import DeletePlaylistButton from "../../components/DeletePlaylistButton";
+import LoadingSpinner from "../../components/LoadingSpinner";
 import PlaylistPlayer from "../../components/PlaylistPlayer";
 import useLocalPlaylists from "../../state/localPlaylists";
 
@@ -10,13 +12,19 @@ import { PlaylistID } from "../../types";
 
 export default function PlaylistPage() {
   const router = useRouter();
-  const [, { getLocalPlaylistById }] = useLocalPlaylists();
+  const [localPlaylists, { getLocalPlaylistById }] = useLocalPlaylists();
 
   const { playlistId } = router.query as {
     playlistId: PlaylistID;
   };
 
-  const localPlaylist = getLocalPlaylistById(playlistId);
+  const localPlaylist = useMemo(() => getLocalPlaylistById(playlistId), [localPlaylists, playlistId]);
+
+  if (localPlaylists === null) {
+    return (
+      <LoadingSpinner />
+    );
+  }
 
   if (!localPlaylist) {
     return (

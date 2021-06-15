@@ -3,9 +3,11 @@ import { atom, useAtom } from "jotai";
 import * as LocalPlaylistsRepository from "../repositories/LocalPlaylists";
 import { Playlist, PlaylistID } from "../types";
 
-const localPlaylists = atom([]);
+type PlaylistCollection = Partial<Playlist>[] | null;
 
-export const asyncLocalPlaylists = atom(
+const localPlaylists = atom<PlaylistCollection, PlaylistCollection>(null, null);
+
+export const asyncLocalPlaylists = atom<PlaylistCollection, PlaylistCollection>(
   (get) => get(localPlaylists),
   (get, set, playlists: Partial<Playlist>[]) => {
     const persist = async () => {
@@ -33,7 +35,7 @@ interface UseLocalPlaylistsOps {
 }
 
 export default function useLocalPlaylists(): [
-  Partial<Playlist>[],
+  Partial<Playlist>[] | null,
   UseLocalPlaylistsOps
 ] {
   const [localPlaylists, setLocalPlaylists] = useAtom(asyncLocalPlaylists);
@@ -41,11 +43,11 @@ export default function useLocalPlaylists(): [
   return [
     localPlaylists,
     {
-      getLocalPlaylistById(playlistId: PlaylistID) {
-        return localPlaylists.find(({ id }) => id === playlistId);
+      getLocalPlaylistById(playlistId: PlaylistID): Partial<Playlist> {
+        return localPlaylists?.find(({ id }) => id === playlistId);
       },
       addLocalPlaylist(newPlaylist: Partial<Playlist>) {
-        setLocalPlaylists([...localPlaylists, newPlaylist]);
+        setLocalPlaylists([...(localPlaylists || []), newPlaylist]);
       },
       deleteLocalPlaylistById(playlistId: PlaylistID) {
         const copy = localPlaylists.slice(0);
