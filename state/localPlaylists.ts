@@ -5,20 +5,20 @@ import { Playlist, PlaylistID } from "../types";
 
 type PlaylistCollection = Partial<Playlist>[] | null;
 
-const localPlaylists = atom<PlaylistCollection, PlaylistCollection>(null, null);
+const localPlaylistsAtom = atom<PlaylistCollection, PlaylistCollection>(null, null);
 
-export const asyncLocalPlaylists = atom<PlaylistCollection, PlaylistCollection>(
-  (get) => get(localPlaylists),
+export const asyncLocalPlaylistsAtom = atom<PlaylistCollection, PlaylistCollection>(
+  (get) => get(localPlaylistsAtom),
   (get, set, playlists: Partial<Playlist>[]) => {
     const persist = async () => {
       await LocalPlaylistsRepository.saveLocalPlaylists(playlists);
     };
     persist().then().catch();
 
-    set(localPlaylists, playlists);
+    set(localPlaylistsAtom, playlists);
   }
 );
-localPlaylists.onMount = (setLocalPlaylists) => {
+localPlaylistsAtom.onMount = (setLocalPlaylists) => {
   const setInitialValue = async () => {
     setLocalPlaylists(
       (await LocalPlaylistsRepository.getLocalPlaylists()) || []
@@ -38,7 +38,7 @@ export default function useLocalPlaylists(): [
   Partial<Playlist>[] | null,
   UseLocalPlaylistsOps
 ] {
-  const [localPlaylists, setLocalPlaylists] = useAtom(asyncLocalPlaylists);
+  const [localPlaylists, setLocalPlaylists] = useAtom(asyncLocalPlaylistsAtom);
 
   return [
     localPlaylists,

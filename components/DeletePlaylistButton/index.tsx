@@ -2,7 +2,7 @@ import { Button, Modal } from "antd";
 import type { SizeType } from "antd/lib/config-provider/SizeContext";
 import { DeleteOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 
-import useDeletePlaylist from "../../actions/useDeletePlaylist";
+import { useDeletePlaylist } from "../../actions";
 import { Playlist } from "../../types";
 
 interface DeletePlaylistButtonProps {
