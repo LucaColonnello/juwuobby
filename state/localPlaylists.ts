@@ -31,7 +31,6 @@ localPlaylistsAtom.onMount = (setLocalPlaylists) => {
 interface UseLocalPlaylistsOps {
   addLocalPlaylist: (newPlaylist: Partial<Playlist>) => void;
   deleteLocalPlaylistById: (playlistId: PlaylistID) => void;
-  getLocalPlaylistById: (playlistId: PlaylistID) => Partial<Playlist>;
 }
 
 export default function useLocalPlaylists(): [
@@ -43,9 +42,6 @@ export default function useLocalPlaylists(): [
   return [
     localPlaylists,
     {
-      getLocalPlaylistById(playlistId: PlaylistID): Partial<Playlist> {
-        return localPlaylists?.find(({ id }) => id === playlistId);
-      },
       addLocalPlaylist(newPlaylist: Partial<Playlist>) {
         setLocalPlaylists([...(localPlaylists || []), newPlaylist]);
       },

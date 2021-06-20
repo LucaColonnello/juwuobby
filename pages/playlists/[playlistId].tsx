@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { Result, Button, PageHeader } from "antd";
 
@@ -6,27 +6,31 @@ import SplitPane from "../../components/SplitPane";
 import DeletePlaylistButton from "../../components/DeletePlaylistButton";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import PlaylistPlayer from "../../components/PlaylistPlayer";
-import useLocalPlaylists from "../../state/localPlaylists";
+import PlaylistSongs from "../../components/PlaylistSongs";
+
+import useOpenedPlaylist from "../../state/openedPlaylist";
 
 import { PlaylistID } from "../../types";
 
 export default function PlaylistPage() {
   const router = useRouter();
-  const [localPlaylists, { getLocalPlaylistById }] = useLocalPlaylists();
+  const [openedPlaylist, { setOpenedPlaylist }] = useOpenedPlaylist();
 
   const { playlistId } = router.query as {
     playlistId: PlaylistID;
   };
 
-  const localPlaylist = useMemo(() => getLocalPlaylistById(playlistId), [localPlaylists, playlistId]);
+  useEffect(() => {
+    setOpenedPlaylist(playlistId);
+  }, [playlistId]);
 
-  if (localPlaylists === null) {
+  if (openedPlaylist === null) {
     return (
       <LoadingSpinner />
     );
   }
 
-  if (!localPlaylist) {
+  if (!openedPlaylist) {
     return (
       <Result
         status="warning"
@@ -55,12 +59,12 @@ export default function PlaylistPage() {
       <PageHeader
         onBack={() => router.push("/")}
         title="⏯  Juwuobby"
-        subTitle={localPlaylist.name}
+        subTitle={openedPlaylist.name}
         extra={[
           <DeletePlaylistButton
             key="delete"
             size="medium"
-            playlist={localPlaylist}
+            playlist={openedPlaylist}
             onDelete={() => {
               router.push("/");
             }}
@@ -78,7 +82,9 @@ export default function PlaylistPage() {
           <aside className="PlaylistPlayerContainer">
             <PlaylistPlayer />
           </aside>
-          <section className="PlaylistSongsContainer"></section>
+          <section className="PlaylistSongsContainer">
+            <PlaylistSongs />
+          </section>
         </SplitPane>
       </div>
 
