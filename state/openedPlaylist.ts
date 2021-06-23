@@ -13,7 +13,7 @@ openedPlaylistIdAtom.onMount = (set) => {
   };
 };
 
-export const openedPlaylistAtomAsync = atom<OpenedPlaylist>(
+export const openedPlaylistAtom = atom<OpenedPlaylist>(
   (get) => {
     const openedPlaylistId = get(openedPlaylistIdAtom);
     const localPlaylists = get(asyncLocalPlaylistsAtom);
@@ -35,7 +35,7 @@ export default function useOpenedPlaylist(): [
   UseOpenedPlaylistOps
 ] {
   const [_, setOpenedPlaylistId] = useAtom(openedPlaylistIdAtom);
-  const [openedPlaylist] = useAtom(openedPlaylistAtomAsync);
+  const [openedPlaylist] = useAtom(openedPlaylistAtom);
 
   return [
     openedPlaylist,

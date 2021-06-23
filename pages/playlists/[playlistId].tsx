@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { useRouter } from "next/router";
 import { Result, Button, PageHeader } from "antd";
 
@@ -83,7 +83,9 @@ export default function PlaylistPage() {
             <PlaylistPlayer />
           </aside>
           <section className="PlaylistSongsContainer">
-            <PlaylistSongs />
+            <Suspense fallback={<LoadingSpinner />}>
+              <PlaylistSongs />
+            </Suspense>
           </section>
         </SplitPane>
       </div>
