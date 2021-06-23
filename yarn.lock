@@ -1493,10 +1493,10 @@ jest-worker@27.0.0-next.5:
     merge-stream "^2.0.0"
     supports-color "^8.0.0"
 
-jotai@0.16.11:
-  version "0.16.11"
-  resolved "https://registry.yarnpkg.com/jotai/-/jotai-0.16.11.tgz#efeaf0311513cf41d5c82b7009f8381d518cbc41"
-  integrity sha512-EPBeDSBc4FwbFRArRjcI6IsHrVkba771mSOFTN3M4r5rU3ZcZMDFLElZScZVr6w1kgrEXvaMm59VAyEB3QUEbA==
+jotai@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/jotai/-/jotai-1.0.1.tgz#c962a7d279ec81a3e78d45267d90434dd1aadd5f"
+  integrity sha512-FZEXZnBdbH+HErXQP2Efzue107OB3cMoSlyZ+FG3lXGwmhgQFOpad7lDihv7kHmKMZ7YIJ0NXRhQVCD7aB+OGA==
 
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
