@@ -1,7 +1,7 @@
 import { atom, useAtom } from "jotai";
 
 import { asyncLocalPlaylistsAtom } from './localPlaylists';
-import { Playlist, PlaylistID } from "../types";
+import { Playlist, PlaylistID, State } from "../types";
 
 type OpenedPlaylist = Partial<Playlist> | false | null;
 
@@ -30,17 +30,14 @@ interface UseOpenedPlaylistOps {
   setOpenedPlaylist: (playlistId: PlaylistID) => void;
 }
 
-export default function useOpenedPlaylist(): [
-  OpenedPlaylist,
-  UseOpenedPlaylistOps
-] {
+export default function useOpenedPlaylist(): State<OpenedPlaylist, UseOpenedPlaylistOps> {
   const [_, setOpenedPlaylistId] = useAtom(openedPlaylistIdAtom);
   const [openedPlaylist] = useAtom(openedPlaylistAtom);
 
   return [
     openedPlaylist,
     {
-      setOpenedPlaylist(playlistId: PlaylistID) {
+      setOpenedPlaylist(playlistId) {
         setOpenedPlaylistId(playlistId);
       },
     }

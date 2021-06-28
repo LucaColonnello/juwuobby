@@ -1,7 +1,7 @@
 import { atom, useAtom } from "jotai";
 
 import * as LocalPlaylistsRepository from "../repositories/LocalPlaylists";
-import { Playlist, PlaylistID } from "../types";
+import { Playlist, PlaylistID, State } from "../types";
 
 type PlaylistCollection = Partial<Playlist>[] | null;
 
@@ -33,19 +33,19 @@ interface UseLocalPlaylistsOps {
   deleteLocalPlaylistById: (playlistId: PlaylistID) => void;
 }
 
-export default function useLocalPlaylists(): [
-  Partial<Playlist>[] | null,
+export default function useLocalPlaylists(): State<
+  PlaylistCollection,
   UseLocalPlaylistsOps
-] {
+> {
   const [localPlaylists, setLocalPlaylists] = useAtom(asyncLocalPlaylistsAtom);
 
   return [
     localPlaylists,
     {
-      addLocalPlaylist(newPlaylist: Partial<Playlist>) {
+      addLocalPlaylist(newPlaylist) {
         setLocalPlaylists([...(localPlaylists || []), newPlaylist]);
       },
-      deleteLocalPlaylistById(playlistId: PlaylistID) {
+      deleteLocalPlaylistById(playlistId) {
         const copy = localPlaylists.slice(0);
         const indexToDelete = localPlaylists.findIndex(
           ({ id }) => id === playlistId

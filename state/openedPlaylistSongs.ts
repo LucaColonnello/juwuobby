@@ -1,5 +1,5 @@
 import { useAtom } from "jotai";
-import { atomWithDefault, REFRESH } from "jotai/utils";
+import { atomWithDefault, RESET } from "jotai/utils";
 
 import { openedPlaylistIdAtom } from './openedPlaylist';
 import { Playlist, PlaylistID } from "../types";
@@ -14,14 +14,13 @@ export const asyncOpenedPlaylistSongsAtom = atomWithDefault<OpenedPlaylistSongs>
 });
 asyncOpenedPlaylistSongsAtom.onMount = (set) => {
   return () => {
-    set(REFRESH);
+    set(RESET);
   }
 };
 
-
 interface UseOpenedPlaylistOps {
   setOpenedPlaylist: (playlistId: PlaylistID) => void;
-  refresh: () => void;
+  reset: () => void;
 }
 
 export default function useOpenedPlaylistSongs(): [
@@ -36,8 +35,8 @@ export default function useOpenedPlaylistSongs(): [
       setOpenedPlaylist() {
         setOpenedPlaylist();
       },
-      refresh() {
-        setOpenedPlaylist(REFRESH);
+      reset() {
+        setOpenedPlaylist(RESET);
       }
     }
   ];
