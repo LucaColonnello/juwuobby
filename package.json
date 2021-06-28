@@ -14,7 +14,7 @@
     "antd": "4.16.2",
     "firebase": "8.6.7",
     "idb-keyval": "5.0.6",
-    "jotai": "^1.0.1",
+    "jotai": "^1.1.0",
     "next": "latest",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
