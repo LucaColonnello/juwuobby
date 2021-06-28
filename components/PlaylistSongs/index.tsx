@@ -1,7 +1,5 @@
-import { Typography, List } from "antd";
+import SongsPicker from "./SongsPicker";
 import useOpenedPlaylistSongs from "../../state/openedPlaylistSongs";
-
-const { Title } = Typography;
 
 export default function PlaylistSongs() {
   const [openedPlaylistSongs] = useOpenedPlaylistSongs();
@@ -9,7 +7,7 @@ export default function PlaylistSongs() {
   return (
     <>
       <div className="PlaylistSongs">
-        {openedPlaylistSongs === null && <>Naaah is null</>}
+        {openedPlaylistSongs === null && <SongsPicker />}
       </div>
       <style jsx>{`
         .PlaylistSongs {
