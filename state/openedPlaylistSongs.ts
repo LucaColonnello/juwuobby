@@ -2,10 +2,10 @@ import { useAtom } from "jotai";
 import { atomWithDefault, RESET } from "jotai/utils";
 
 import { openedPlaylistIdAtom } from './openedPlaylist';
-import { Playlist, PlaylistID } from "../types";
+import { PlaylistSongs, PlaylistID, State } from "../types";
 
 // TODO: fix type, it should be about the songs
-type OpenedPlaylistSongs = Partial<Playlist> | false | null;
+type OpenedPlaylistSongs = PlaylistSongs | false | null;
 
 export const asyncOpenedPlaylistSongsAtom = atomWithDefault<OpenedPlaylistSongs>(async (get) => {
   const openedPlaylistId = get(openedPlaylistIdAtom);
@@ -18,25 +18,25 @@ asyncOpenedPlaylistSongsAtom.onMount = (set) => {
   }
 };
 
-interface UseOpenedPlaylistOps {
-  setOpenedPlaylist: (playlistId: PlaylistID) => void;
+interface UseOpenedPlaylistSongsOps {
+  setOpenedPlaylistSongs: (playlistSongs: PlaylistSongs) => void;
   reset: () => void;
 }
 
-export default function useOpenedPlaylistSongs(): [
-  OpenedPlaylistSongs,
-  UseOpenedPlaylistOps
-] {
-  const [openedPlaylistSongs, setOpenedPlaylist] = useAtom(asyncOpenedPlaylistSongsAtom);
+export default function useOpenedPlaylistSongs(): State<
+  { openedPlaylistSongs: OpenedPlaylistSongs },
+  UseOpenedPlaylistSongsOps
+> {
+  const [openedPlaylistSongs, setOpenedPlaylistSongs] = useAtom(asyncOpenedPlaylistSongsAtom);
 
   return [
-    openedPlaylistSongs,
+    { openedPlaylistSongs },
     {
-      setOpenedPlaylist() {
-        setOpenedPlaylist();
+      setOpenedPlaylistSongs() {
+        setOpenedPlaylistSongs();
       },
       reset() {
-        setOpenedPlaylist(RESET);
+        setOpenedPlaylistSongs(RESET);
       }
     }
   ];

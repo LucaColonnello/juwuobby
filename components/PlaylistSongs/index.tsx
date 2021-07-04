@@ -2,7 +2,7 @@ import SongsPicker from "./SongsPicker";
 import useOpenedPlaylistSongs from "../../state/openedPlaylistSongs";
 
 export default function PlaylistSongs() {
-  const [openedPlaylistSongs] = useOpenedPlaylistSongs();
+  const [{ openedPlaylistSongs }] = useOpenedPlaylistSongs();
 
   return (
     <>
