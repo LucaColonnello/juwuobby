@@ -1,5 +1,6 @@
 import * as PlaylistsRepository from "../repositories/Playlists";
 import useLocalPlaylists from "../state/localPlaylists";
+import { createPlaylist } from "../domain/playlist";
 
 import { NewPlaylistInput, PlaylistID, Action } from "../types";
 
@@ -9,12 +10,12 @@ export default function useCreateNewPlaylist(): Action<(
   const [, { addLocalPlaylist }] = useLocalPlaylists();
 
   return async function createNewPlaylist(newPlaylist) {
-    const playlistId = await PlaylistsRepository.createPlaylist(newPlaylist);
+    const platlisttEntity = createPlaylist(newPlaylist);
+    const playlistId = await PlaylistsRepository.createPlaylist(platlisttEntity);
 
-    addLocalPlaylist({
-      id: playlistId,
-      ...newPlaylist
-    });
+    platlisttEntity.id = playlistId;
+
+    addLocalPlaylist(platlisttEntity);
 
     return playlistId;
   };

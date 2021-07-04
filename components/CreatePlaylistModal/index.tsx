@@ -16,7 +16,7 @@ export default function CreatePlaylistModal() {
   const handleOpenModal = () => setVisible(true);
 
   const handleOk = async () => {
-    let values;
+    let values: { name: string, publicKey: string };
 
     try {
       values = await form.validateFields();
@@ -28,7 +28,7 @@ export default function CreatePlaylistModal() {
     setLoading(true);
 
     try {
-      const createdId = await createNewPlaylist(values);
+      const createdId = await createNewPlaylist(values.name, values.publicKey);
 
       setVisible(false);
       form.resetFields();

@@ -1,12 +1,12 @@
 import { db } from "../firebase";
-import { NewPlaylistInput, PlaylistID } from "../types";
+import { Playlist, PlaylistID } from "../types";
 
 export async function createPlaylist(
-  newPlaylist: NewPlaylistInput
+  playlist: Playlist
 ): Promise<PlaylistID> {
-  const playlist = await db.collection("Playlist").add(newPlaylist);
+  const createdPlaylist = await db.collection("Playlist").add(playlist);
 
-  return playlist.id;
+  return createdPlaylist.id;
 }
 
 export async function deletePlaylistById(

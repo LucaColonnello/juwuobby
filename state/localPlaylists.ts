@@ -3,13 +3,13 @@ import { atom, useAtom } from "jotai";
 import * as LocalPlaylistsRepository from "../repositories/LocalPlaylists";
 import { Playlist, PlaylistID, State } from "../types";
 
-type PlaylistCollection = Partial<Playlist>[] | null;
+type PlaylistCollection = Playlist[] | null;
 
 const localPlaylistsAtom = atom<PlaylistCollection, PlaylistCollection>(null, null);
 
 export const asyncLocalPlaylistsAtom = atom<PlaylistCollection, PlaylistCollection>(
   (get) => get(localPlaylistsAtom),
-  (get, set, playlists: Partial<Playlist>[]) => {
+  (get, set, playlists: Playlist[]) => {
     const persist = async () => {
       await LocalPlaylistsRepository.saveLocalPlaylists(playlists);
     };
@@ -29,7 +29,7 @@ localPlaylistsAtom.onMount = (setLocalPlaylists) => {
 };
 
 interface UseLocalPlaylistsOps {
-  addLocalPlaylist: (newPlaylist: Partial<Playlist>) => void;
+  addLocalPlaylist: (newPlaylist: Playlist) => void;
   deleteLocalPlaylistById: (playlistId: PlaylistID) => void;
 }
 
