@@ -2,14 +2,14 @@ import { useAtom } from "jotai";
 import { atomWithDefault, RESET } from "jotai/utils";
 
 import { openedPlaylistIdAtom } from './openedPlaylist';
-import { PlaylistSongs, PlaylistID, State } from "../types";
+import { PlaylistSongs, State } from "../types";
 
-// TODO: fix type, it should be about the songs
-type OpenedPlaylistSongs = PlaylistSongs | false | null;
+type OpenedPlaylistSongs = PlaylistSongs | null;
 
 export const asyncOpenedPlaylistSongsAtom = atomWithDefault<OpenedPlaylistSongs>(async (get) => {
   const openedPlaylistId = get(openedPlaylistIdAtom);
 
+  // TODO: use local repository to get playlist songs by playlist id
   return null;
 });
 asyncOpenedPlaylistSongsAtom.onMount = (set) => {
@@ -32,8 +32,8 @@ export default function useOpenedPlaylistSongs(): State<
   return [
     { openedPlaylistSongs },
     {
-      setOpenedPlaylistSongs() {
-        setOpenedPlaylistSongs();
+      setOpenedPlaylistSongs(playlistSongs: PlaylistSongs) {
+        setOpenedPlaylistSongs(playlistSongs);
       },
       reset() {
         setOpenedPlaylistSongs(RESET);

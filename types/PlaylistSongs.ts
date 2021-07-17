@@ -1,12 +1,21 @@
 import { PlaylistID } from "./Playlist";
 
+export type SongHash = string;
+
 export interface PlaylistSongs {
   id: PlaylistID;
-  dir: FileSystemDirectoryHandle;
+  root: Dir;
+  dirHandle?: FileSystemDirectoryHandle;
+  songFilesByHash?: Map<SongHash, EnhancedFile>;
+}
+
+export interface Dir {
+  name: string;
+  dirs: Dir[];
   songs: Song[];
 }
 
 export interface Song {
-  path: string;
+  hash: SongHash;
   name: string;
 }

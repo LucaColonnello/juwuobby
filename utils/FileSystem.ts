@@ -5,11 +5,11 @@ import {
   FileSystemPermissionMode
 } from '../types/global';
 
-interface EnhancedFile extends File {
-  directoryHandle?: FileSystemDirectoryHandle;
-}
-
-export async function getFilesFromDirectory(dirHandle: FileSystemDirectoryHandle, recursive: boolean, path = dirHandle.name) {
+export async function getFilesFromDirectory(
+  dirHandle: FileSystemDirectoryHandle,
+  recursive: boolean,
+  path = dirHandle.name
+): Promise<EnhancedFile[]> {
   const dirs = [];
   const files = [];
   for await (const entry of dirHandle.values()) {
@@ -34,7 +34,10 @@ export async function getFilesFromDirectory(dirHandle: FileSystemDirectoryHandle
   return [...(await Promise.all(dirs)).flat(), ...(await Promise.all(files))];
 };
 
-export async function verifyPermission(fileHandle: FileSystemDirectoryHandle, readWrite: boolean) {
+export async function verifyPermission(
+  fileHandle: FileSystemDirectoryHandle,
+  readWrite: boolean
+): Promise<boolean> {
   const options: FileSystemHandlePermissionDescriptor = {};
   if (readWrite) {
     options.mode = FileSystemPermissionMode.readwrite;
@@ -51,7 +54,7 @@ export async function verifyPermission(fileHandle: FileSystemDirectoryHandle, re
   return false;
 }
 
-export async function pickDirectory() {
+export async function pickDirectory(): Promise<FileSystemDirectoryHandle> {
   return await window.showDirectoryPicker({
     type: ChooseFileSystemEntriesType["open-directory"]
   });

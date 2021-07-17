@@ -15,10 +15,12 @@ const processStagesList = Object.values(PickPlaylistSongsStages)
   .filter((stage) => stage !== PickPlaylistSongsStages.idle);
 const processStageStepPercentage = 100 / processStagesList.length;
 
-const processStagesLabel = {
+const processStagesLabel: Record<PickPlaylistSongsStages, string> = {
+  idle: "",
   pickingDir: "Pick the songs from your local computer",
   loadingFiles: "Loading your songs from the file system",
   computingData: "Computing. Just a little while more...",
+  syncWithServer: "Syncing with server",
 };
 
 export default function SongsPicker() {

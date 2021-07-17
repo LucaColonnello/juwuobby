@@ -13,8 +13,8 @@ export enum FileSystemPermissionMode {
 }
 
 export enum FileSystemHandleKind {
-  "file",
-  "directory"
+  "file" = "file",
+  "directory" = "directory"
 }
 
 declare global {
@@ -79,6 +79,11 @@ declare global {
 
   interface FileSystemHandleConstructor {
       new(): FileSystemHandle;
+  }
+
+  interface EnhancedFile extends File {
+    directoryHandle?: FileSystemDirectoryHandle;
+    webkitRelativePath: string;
   }
 
   interface FileSystemFileHandle extends FileSystemHandle {
