@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { notification } from "antd";
 
 import SongsPicker from "./SongsPicker";
-import SongsNavigator from "./SongsNavigator";
+import SongsNavigator from "../SongsNavigator";
 
 import { useLoadLocalPlaylistSongs } from "../../actions";
 import useOpenedPlaylistSongs from "../../state/openedPlaylistSongs";
@@ -34,8 +34,9 @@ export default function PlaylistSongs() {
     <>
       <div className="PlaylistSongs">
         {openedPlaylistSongs === null && <SongsPicker />}
-        {openedPlaylistSongs !== null && <SongsNavigator />}
+        {openedPlaylistSongs !== null && <SongsNavigator playlistSongs={openedPlaylistSongs} />}
       </div>
+
       <style jsx>{`
         .PlaylistSongs {
           position: relative;

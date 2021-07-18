@@ -1,7 +1,6 @@
 import Link from "next/link";
 
 import { List, Typography } from "antd";
-import { LoadingOutlined } from '@ant-design/icons';
 
 import { LoadingSpinnerIcon } from "../LoadingSpinner";
 import DeletePlaylistButton from "../DeletePlaylistButton";

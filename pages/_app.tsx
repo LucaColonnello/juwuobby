@@ -15,6 +15,10 @@ function JuwuobbyAppProvider({ Component, pageProps }: AppProps) {
           width: 100%;
           min-height: 100%;
         }
+
+        * {
+          user-select: none;
+        }
       `}</style>
     </>
   );

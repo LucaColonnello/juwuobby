@@ -110,6 +110,7 @@ export default function PlaylistPage() {
         .PlaylistSongsContainer {
           position: relative;
           height: 100%;
+          overflow: auto;
         }
       `}</style>
     </div>
