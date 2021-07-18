@@ -5,17 +5,18 @@ export type SongHash = string;
 export interface PlaylistSongs {
   id: PlaylistID;
   root: Dir;
+  songsByHash: Map<SongHash, Song>;
   dirHandle?: FileSystemDirectoryHandle;
-  songFilesByHash?: Map<SongHash, EnhancedFile>;
 }
 
 export interface Dir {
   name: string;
   dirs: Dir[];
-  songs: Song[];
+  songs: SongHash[];
 }
 
 export interface Song {
   hash: SongHash;
   name: string;
+  fileHandle?: EnhancedFile;
 }

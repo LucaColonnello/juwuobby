@@ -1,12 +1,15 @@
+import { useAtomValue } from "jotai/utils";
 import { List } from 'antd';
 import { PlayCircleTwoTone } from '@ant-design/icons';
 
-import type { Song } from '../../types';
+import { currentPlaylistSongsAtom } from "./state";
+
+import type { Song, SongHash } from '../../types';
 
 const { Item } = List;
 
 export interface SongsListProps {
-  songs: Song[];
+  songs: SongHash[];
   onClick?: (song: Song) => void;
 }
 
@@ -14,30 +17,42 @@ export default function SongsList({
   songs = [],
   onClick = () => {},
 }: SongsListProps) {
-  if (!songs.length) {
+  const playlistSongs = useAtomValue(currentPlaylistSongsAtom);
+
+  if (!songs.length || playlistSongs === null) {
     return null;
   }
+
+  const { songsByHash } = playlistSongs;
 
   return (
     <List
       size="large"
       dataSource={songs}
-      renderItem={item => (
-        <Item
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            onClick(item);
-          }}
-          style={{ cursor: "pointer" }}
-        >
-          <Item.Meta
-            avatar={<PlayCircleTwoTone />}
-            title={item.name}
-          />
-        </Item>
-      )}
+      renderItem={songHash => {
+        if (!songsByHash.has(songHash)) {
+          return null;
+        }
+
+        const song = songsByHash.get(songHash);
+
+        return (
+          <Item
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              
+              onClick(song);
+            }}
+            style={{ cursor: "pointer" }}
+          >
+            <Item.Meta
+              avatar={<PlayCircleTwoTone />}
+              title={song.name}
+            />
+          </Item>
+        );
+      }}
     />
   );
 }

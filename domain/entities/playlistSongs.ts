@@ -30,7 +30,7 @@ export const createPlaylistSongsFromDirAndFiles = (
     id: playlistId,
     root: rootDir,
     dirHandle: dir,
-    songFilesByHash: new Map<SongHash, EnhancedFile>(),
+    songsByHash: new Map<SongHash, Song>(),
   };
 
   dirByName.set(dir.name, rootDir);
@@ -78,12 +78,17 @@ export const createPlaylistSongsFromDirAndFiles = (
     const song: Song = {
       hash: songHash,
       name: file.name,
+      fileHandle: file,
     };
 
-    const parentFolder = dirByName.get(folderPath);
-    sortedArrayPush(parentFolder.songs, song, song => song.name);
+    playlistSongs.songsByHash.set(songHash, song);
 
-    playlistSongs.songFilesByHash.set(songHash, file);
+    const parentFolder = dirByName.get(folderPath);
+    sortedArrayPush(
+      parentFolder.songs,
+      songHash,
+      songHash => playlistSongs.songsByHash.get(songHash).name,
+    );
   }
 
   return playlistSongs;
@@ -97,15 +102,16 @@ export const addPlaylistSongsSongFiles = (
     throw new Error("Cannot add songFilesByHash to PlaylistSongs, empty list of files");
   }
 
-  const songFilesByHash = new Map<SongHash, EnhancedFile>();
-
   for (let file of files) {
     const songHash = shorthash2(file.webkitRelativePath);
-    songFilesByHash.set(songHash, file);
+
+    if (playlistSongs.songsByHash.has(songHash)) {
+      playlistSongs.songsByHash.get(songHash).fileHandle = file;
+    }
   }
 
   return {
     ...playlistSongs,
-    songFilesByHash,
+    songsByHash: playlistSongs.songsByHash,
   };
 };
