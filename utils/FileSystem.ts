@@ -5,15 +5,22 @@ import {
   FileSystemPermissionMode
 } from '../types/global';
 
+type FileSystemHandleFilter = (handle: FileSystemDirectoryHandle | FileSystemFileHandle) => boolean;
+
 export async function getFilesFromDirectory(
   dirHandle: FileSystemDirectoryHandle,
   recursive: boolean,
-  path = dirHandle.name
+  filter: FileSystemHandleFilter = () => true,
+  path = dirHandle.name,
 ): Promise<EnhancedFile[]> {
   const dirs = [];
   const files = [];
   for await (const entry of dirHandle.values()) {
     const nestedPath = `${path}/${entry.name}`;
+    if (!filter(entry)) {
+      continue;
+    }
+
     if (entry.kind === FileSystemHandleKind.file) {
       files.push(
         (entry as FileSystemFileHandle)
@@ -28,7 +35,9 @@ export async function getFilesFromDirectory(
           })
       );
     } else if (entry.kind === FileSystemHandleKind.directory && recursive) {
-      dirs.push(getFilesFromDirectory(entry as FileSystemDirectoryHandle, recursive, nestedPath));
+      dirs.push(
+        getFilesFromDirectory(entry as FileSystemDirectoryHandle, recursive, filter, nestedPath)
+      );
     }
   }
   return [...(await Promise.all(dirs)).flat(), ...(await Promise.all(files))];

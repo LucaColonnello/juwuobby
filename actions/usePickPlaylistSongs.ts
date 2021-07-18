@@ -8,6 +8,7 @@ import useOpenedPlaylist from "../state/openedPlaylist";
 import useOpenedPlaylistSongs from "../state/openedPlaylistSongs";
 
 import { createPlaylistSongsFromDirAndFiles } from "../domain/entities/playlistSongs";
+import validateFileHandleByName from "../domain/services/validateFileHandleByName";
 
 import type { StatefullAction } from "../types";
 
@@ -42,7 +43,7 @@ export default function usePickPlaylistSongs(): StatefullAction<
         await waitFor(1000);
 
         setCurrentStage(PickPlaylistSongsStages.loadingFiles);
-        const files = await FileSystemService.getFilesFromDirectory(directoryHandle, true);
+        const files = await FileSystemService.getFilesFromDirectory(directoryHandle, true, validateFileHandleByName);
         await waitFor(1000);
 
         setCurrentStage(PickPlaylistSongsStages.computingData);
