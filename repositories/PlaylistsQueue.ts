@@ -1,0 +1,34 @@
+import { db } from "../firebase";
+import { PlaylistQueue, PlaylistQueueItem, PlaylistID } from "../types";
+
+export type Unsubscribe = () => void;
+
+export function subscribeToPlaylistQueue(
+  playlistId: PlaylistID,
+  onChange: (playlistQueue: PlaylistQueue) => void
+): Unsubscribe {
+  return db
+    .collection("Playlist")
+    .doc(playlistId)
+    .collection("PlaylistQueue")
+    .onSnapshot((snapshot) => {
+      const playlistQueue: PlaylistQueue = [];
+
+      snapshot.forEach((doc) => {
+        playlistQueue.push(doc.data() as PlaylistQueueItem);
+      });
+
+      onChange(playlistQueue);
+    });
+}
+
+export async function addSongToPlaylistQueue(
+  playlistId: PlaylistID,
+  playlistQueueItem: PlaylistQueueItem,
+): Promise<void> {
+  await db
+    .collection("Playlist")
+    .doc(playlistId)
+    .collection("PlaylistQueue")
+    .add(playlistQueueItem);
+}

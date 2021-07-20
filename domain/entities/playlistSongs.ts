@@ -50,7 +50,7 @@ export const createPlaylistSongsFromDirAndFiles = (
           songs: [],
         };
 
-        sortedArrayPush(parent.dirs, dir, dir => dir.name);
+        sortedArrayPush(parent.dirs, dir, dir => dir.name.toLowerCase());
         dirByName.set(ancestorFullPath, dir);
 
         parent = dir;
@@ -87,7 +87,7 @@ export const createPlaylistSongsFromDirAndFiles = (
     sortedArrayPush(
       parentFolder.songs,
       songHash,
-      songHash => playlistSongs.songsByHash.get(songHash).name,
+      songHash => playlistSongs.songsByHash.get(songHash)?.name.toLowerCase(),
     );
   }
 

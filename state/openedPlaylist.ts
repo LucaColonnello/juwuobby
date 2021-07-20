@@ -3,7 +3,7 @@ import { atom, useAtom } from "jotai";
 import { asyncLocalPlaylistsAtom } from './localPlaylists';
 import { Playlist, PlaylistID, State } from "../types";
 
-type OpenedPlaylist = Partial<Playlist> | false | null;
+type OpenedPlaylist = Playlist | false | null;
 
 export const openedPlaylistIdAtom = atom<PlaylistID, PlaylistID>(null, null);
 openedPlaylistIdAtom.onMount = (set) => {

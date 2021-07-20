@@ -2,9 +2,9 @@
 // modified based on updates from https://wicg.github.io/file-system-access
 
 export enum ChooseFileSystemEntriesType {
-    'open-file',
-    'save-file',
-    'open-directory'
+  'open-file',
+  'save-file',
+  'open-directory'
 }
 
 export enum FileSystemPermissionMode {
@@ -18,6 +18,8 @@ export enum FileSystemHandleKind {
 }
 
 declare global {
+  type Timestamp = number;
+
   interface ChooseFileSystemEntriesOptionsAccepts {
       description?: string;
       mimeTypes?: string;

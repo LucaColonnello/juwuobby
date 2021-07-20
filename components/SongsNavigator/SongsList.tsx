@@ -1,12 +1,10 @@
 import { useAtomValue } from "jotai/utils";
 import { List } from 'antd';
-import { PlayCircleTwoTone } from '@ant-design/icons';
 
 import { currentPlaylistSongsAtom } from "./state";
+import SongListItem from "../SongListItem";
 
 import type { Song, SongHash } from '../../types';
-
-const { Item } = List;
 
 export interface SongsListProps {
   songs: SongHash[];
@@ -37,20 +35,10 @@ export default function SongsList({
         const song = songsByHash.get(songHash);
 
         return (
-          <Item
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              
-              onClick(song);
-            }}
-            style={{ cursor: "pointer" }}
-          >
-            <Item.Meta
-              avatar={<PlayCircleTwoTone />}
-              title={song.name}
-            />
-          </Item>
+          <SongListItem
+            onClick={onClick}
+            song={song}
+          />
         );
       }}
     />

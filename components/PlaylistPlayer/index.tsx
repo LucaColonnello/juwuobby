@@ -1,11 +1,17 @@
-import { Typography, List } from "antd";
+import { Typography } from "antd";
 import AudioPlayer from "react-h5-audio-player";
+
+import { usePlaylistQueueSubscription } from "../../effects";
+
+import PlaylistPlayerQueue from "./PlaylistPlayerQueue";
 
 import "react-h5-audio-player/lib/styles.css";
 
 const { Title } = Typography;
 
 export default function PlaylistPlayer() {
+  usePlaylistQueueSubscription();
+
   return (
     <>
       <div className="PlaylistPlayer">
@@ -20,7 +26,7 @@ export default function PlaylistPlayer() {
           />
         </div>
         <div className="PlaylistPlayerQueueContainer">
-          <List locale={{ emptyText: "0 songs in the queue" }} />
+          <PlaylistPlayerQueue />
         </div>
       </div>
       <style jsx>{`
@@ -38,6 +44,7 @@ export default function PlaylistPlayer() {
         .PlaylistPlayerQueueContainer {
           flex-shrink: 0;
           flex-grow: 1;
+          overflow: auto;
         }
       `}</style>
     </>
