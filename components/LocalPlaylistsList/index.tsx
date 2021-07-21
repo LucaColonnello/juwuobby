@@ -20,8 +20,7 @@ export default function LocalPlaylistsList() {
       loading={localPlaylists === null ? { indicator: LoadingSpinnerIcon } : false}
       renderItem={(item: Partial<Playlist>) => (
         <List.Item actions={[<DeletePlaylistButton playlist={item} />]}>
-          <Link href={`/playlists/${item.id}`}>{item.id}</Link>{" "}
-          <Text>{item.name}</Text>
+          <Link href={`/playlists/${item.id}`}>{item.name}</Link>
         </List.Item>
       )}
     />
