@@ -52,7 +52,16 @@ const currentDirAtom = atom<Dir | null>((get) => {
 });
 
 
+const songsNavigatorScope = Symbol("songsNavigatorScope");
+
+currentPlaylistSongsAtom.scope = songsNavigatorScope;
+navigationHistoryAtom.scope = songsNavigatorScope;
+navigateForwardAtom.scope = songsNavigatorScope;
+navigateBackAtom.scope = songsNavigatorScope;
+currentDirAtom.scope = songsNavigatorScope;
+
 export {
+  songsNavigatorScope,
   currentPlaylistSongsAtom,
   navigationHistoryAtom,
   navigateForwardAtom,

@@ -4,6 +4,7 @@ import LoadingSpinner from "../LoadingSpinner";
 import DirsList from './DirsList';
 import SongsList from './SongsList';
 
+import type { ReactNode } from 'react';
 import type { Dir, Song } from '../../types';
 
 const { Text } = Typography;
@@ -13,6 +14,7 @@ export interface NavigableListProps {
   onDirClick?: (dir: Dir) => void;
   onSongClick?: (song: Song) => void;
   onSongDoubleClick?: (song: Song) => void;
+  getSongActions?: (song: Song) => ReactNode[];
 }
 
 export default function NavigableList({
@@ -20,6 +22,7 @@ export default function NavigableList({
   onDirClick = () => {},
   onSongClick = () => {},
   onSongDoubleClick = () => {},
+  getSongActions,
 }: NavigableListProps) {
   if (dir === null) {
     return (
@@ -38,6 +41,7 @@ export default function NavigableList({
     songsList = (
       <SongsList
         songs={dir.songs}
+        getActions={getSongActions}
         onClick={onSongClick}
         onDoubleClick={onSongDoubleClick}
       />

@@ -4,16 +4,19 @@ import { List } from 'antd';
 import { currentPlaylistSongsAtom } from "./state";
 import SongListItem from "../SongListItem";
 
+import type { ReactNode } from "react";
 import type { Song, SongHash } from '../../types';
 
 export interface SongsListProps {
   songs: SongHash[];
+  getActions?: (song: Song) => ReactNode[];
   onClick?: (song: Song) => void;
   onDoubleClick?: (song: Song) => void;
 }
 
 export default function SongsList({
   songs = [],
+  getActions,
   onClick = () => {},
   onDoubleClick = () => {},
 }: SongsListProps) {
@@ -39,6 +42,7 @@ export default function SongsList({
         return (
           <SongListItem
             song={song}
+            getActions={getActions}
             onClick={onClick}
             onDoubleClick={onDoubleClick}
           />

@@ -4,3 +4,4 @@ export { default as usePickPlaylistSongs, PickPlaylistSongsStages } from "./useP
 export { default as useLoadLocalPlaylistSongs } from "./useLoadLocalPlaylistSongs";
 export { default as usePlayNextSong } from "./usePlayNextSong";
 export { default as usePlaySong } from "./usePlaySong";
+export { default as useAddSongToPlaylistQueue } from "./useAddSongToPlaylistQueue";

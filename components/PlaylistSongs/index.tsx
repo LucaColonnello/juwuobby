@@ -8,6 +8,7 @@ import SongsNavigator from "../SongsNavigator";
 
 import { useLoadLocalPlaylistSongs } from "../../actions";
 import useOpenedPlaylistSongs from "../../state/openedPlaylistSongs";
+import AddSongToQueueButton from "../AddSongToQueueButton";
 
 export default function PlaylistSongs() {
   const [{ openedPlaylistSongs }] = useOpenedPlaylistSongs();
@@ -41,6 +42,9 @@ export default function PlaylistSongs() {
           <SongsNavigator
             playlistSongs={openedPlaylistSongs}
             onSongDoubleClick={playSong}
+            getSongActions={(song) => [
+              <AddSongToQueueButton key="addToQueueAction" song={song} />
+            ]}
           />
         )}
       </div>
