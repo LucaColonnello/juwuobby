@@ -12,12 +12,14 @@ export interface NavigableListProps {
   dir: Dir;
   onDirClick?: (dir: Dir) => void;
   onSongClick?: (song: Song) => void;
+  onSongDoubleClick?: (song: Song) => void;
 }
 
 export default function NavigableList({
   dir = null,
   onDirClick = () => {},
   onSongClick = () => {},
+  onSongDoubleClick = () => {},
 }: NavigableListProps) {
   if (dir === null) {
     return (
@@ -33,7 +35,13 @@ export default function NavigableList({
   }
 
   if (dir.songs.length) {
-    songsList = (<SongsList songs={dir.songs} onClick={onSongClick} />);
+    songsList = (
+      <SongsList
+        songs={dir.songs}
+        onClick={onSongClick}
+        onDoubleClick={onSongDoubleClick}
+      />
+    );
   }
 
   if (dirsList === null && songsList === null) {

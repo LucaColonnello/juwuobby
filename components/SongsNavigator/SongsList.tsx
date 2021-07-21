@@ -9,11 +9,13 @@ import type { Song, SongHash } from '../../types';
 export interface SongsListProps {
   songs: SongHash[];
   onClick?: (song: Song) => void;
+  onDoubleClick?: (song: Song) => void;
 }
 
 export default function SongsList({
   songs = [],
   onClick = () => {},
+  onDoubleClick = () => {},
 }: SongsListProps) {
   const playlistSongs = useAtomValue(currentPlaylistSongsAtom);
 
@@ -36,8 +38,9 @@ export default function SongsList({
 
         return (
           <SongListItem
-            onClick={onClick}
             song={song}
+            onClick={onClick}
+            onDoubleClick={onDoubleClick}
           />
         );
       }}

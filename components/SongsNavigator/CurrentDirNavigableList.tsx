@@ -6,16 +6,24 @@ import NavigableList from './NavigableList';
 
 import { currentDirAtom, navigateForwardAtom } from "./state";
 
-import type { Dir } from "../../types";
+import type { Dir, Song } from "../../types";
 
-export default function CurrentDirNavigableList() {
+export interface CurrentDirNavigableListProps {
+  onSongClick?: (song: Song) => void;  
+  onSongDoubleClick?: (song: Song) => void;  
+}
+
+export default function CurrentDirNavigableList({
+  onSongClick,
+  onSongDoubleClick,
+}: CurrentDirNavigableListProps) {
   const [currentDir] = useAtom(currentDirAtom);
   const navigateForward = useUpdateAtom(navigateForwardAtom);
+
 
   const onDirClick = (dir: Dir) => {
     navigateForward(dir);
   };
-
 
   if (currentDir === null) {
     return (<LoadingSpinner />);
@@ -25,6 +33,8 @@ export default function CurrentDirNavigableList() {
     <NavigableList
       dir={currentDir}
       onDirClick={onDirClick}
+      onSongClick={onSongClick}
+      onSongDoubleClick={onSongDoubleClick}
     />
   );
 }

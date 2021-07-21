@@ -9,14 +9,22 @@ const { Item } = List;
 export interface SongListItemProps {
   song: Song;
   onClick?: (Song) => void;
+  onDoubleClick?: (Song) => void;
 }
 
 function SongListItem({
   song,
   onClick = () => {},
+  onDoubleClick = () => {},
 }: SongListItemProps) {
   return (
     <Item
+      onDoubleClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        onDoubleClick(song);
+      }}
       onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();

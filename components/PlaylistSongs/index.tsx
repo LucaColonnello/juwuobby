@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { notification } from "antd";
 
+import { usePlaySong } from "../../actions";
+
 import SongsPicker from "./SongsPicker";
 import SongsNavigator from "../SongsNavigator";
 
@@ -10,6 +12,7 @@ import useOpenedPlaylistSongs from "../../state/openedPlaylistSongs";
 export default function PlaylistSongs() {
   const [{ openedPlaylistSongs }] = useOpenedPlaylistSongs();
   const loadLocalPlaylistSongs = useLoadLocalPlaylistSongs();
+  const playSong = usePlaySong();
 
   const loadPlaylistSongs = async () => {
     try {
@@ -34,7 +37,12 @@ export default function PlaylistSongs() {
     <>
       <div className="PlaylistSongs">
         {openedPlaylistSongs === null && <SongsPicker />}
-        {openedPlaylistSongs !== null && <SongsNavigator playlistSongs={openedPlaylistSongs} />}
+        {openedPlaylistSongs !== null && (
+          <SongsNavigator
+            playlistSongs={openedPlaylistSongs}
+            onSongDoubleClick={playSong}
+          />
+        )}
       </div>
 
       <style jsx>{`
