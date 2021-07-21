@@ -15,12 +15,25 @@ export function subscribeToPlaylistQueue(
       const playlistQueue: PlaylistQueue = [];
 
       snapshot.forEach((doc) => {
-        playlistQueue.push(doc.data() as PlaylistQueueItem);
+        playlistQueue.push({ id: doc.id, ...doc.data() } as PlaylistQueueItem);
       });
 
       onChange(playlistQueue);
     });
 }
+
+export async function deleteSongFromPlaylistQueue(
+  playlistId: PlaylistID,
+  playlistQueueItem: PlaylistQueueItem,
+): Promise<void> {
+  await db
+    .collection("Playlist")
+    .doc(playlistId)
+    .collection("PlaylistQueue")
+    .doc(playlistQueueItem.id)
+    .delete();
+}
+
 
 export async function addSongToPlaylistQueue(
   playlistId: PlaylistID,

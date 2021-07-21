@@ -1,13 +1,7 @@
-import { Typography } from "antd";
-import AudioPlayer from "react-h5-audio-player";
-
 import { usePlaylistQueueSubscription } from "../../effects";
 
+import PlaylistPlayerControls from "./PlaylistPlayerControls";
 import PlaylistPlayerQueue from "./PlaylistPlayerQueue";
-
-import "react-h5-audio-player/lib/styles.css";
-
-const { Title } = Typography;
 
 export default function PlaylistPlayer() {
   usePlaylistQueueSubscription();
@@ -16,14 +10,7 @@ export default function PlaylistPlayer() {
     <>
       <div className="PlaylistPlayer">
         <div className="PlaylistPlayerControlsContainer">
-          <AudioPlayer
-            layout="stacked"
-            header={
-              <Title type="secondary" level={3}>
-                Nothing is playing...
-              </Title>
-            }
-          />
+          <PlaylistPlayerControls />
         </div>
         <div className="PlaylistPlayerQueueContainer">
           <PlaylistPlayerQueue />

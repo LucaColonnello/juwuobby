@@ -2,7 +2,7 @@ import * as PlaylistsRepository from "../repositories/Playlists";
 import useLocalPlaylists from "../state/localPlaylists";
 import { createPlaylist } from "../domain/entities/playlist";
 
-import { PlaylistID, Action } from "../types";
+import type { PlaylistID, Action } from "../types";
 
 export default function useCreateNewPlaylist(): Action<(
   name: string,
@@ -11,12 +11,12 @@ export default function useCreateNewPlaylist(): Action<(
   const [, { addLocalPlaylist }] = useLocalPlaylists();
 
   return async function createNewPlaylist(name, publicKey) {
-    const platlisttEntity = createPlaylist(name, publicKey);
-    const playlistId = await PlaylistsRepository.createPlaylist(platlisttEntity);
+    const platlistEntity = createPlaylist(name, publicKey);
+    const playlistId = await PlaylistsRepository.createPlaylist(platlistEntity);
 
-    platlisttEntity.id = playlistId;
+    platlistEntity.id = playlistId;
 
-    addLocalPlaylist(platlisttEntity);
+    addLocalPlaylist(platlistEntity);
 
     return playlistId;
   };
