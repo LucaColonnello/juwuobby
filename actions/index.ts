@@ -6,3 +6,4 @@ export { default as usePlayNextSong } from "./usePlayNextSong";
 export { default as usePlaySong } from "./usePlaySong";
 export { default as useAddSongToPlaylistQueue } from "./useAddSongToPlaylistQueue";
 export { default as useRemoveSongFromPlaylistQueue } from "./useRemoveSongFromPlaylistQueue";
+export { default as useRemoveAllSongsFromPlaylistQueue } from "./useRemoveAllSongsFromPlaylistQueue";

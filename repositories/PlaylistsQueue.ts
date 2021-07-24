@@ -34,6 +34,17 @@ export async function deleteSongFromPlaylistQueue(
     .delete();
 }
 
+export async function deleteAllSongsFromPlaylistQueue(
+  playlistId: PlaylistID,
+): Promise<void> {
+  const playlistQueueCollection = await db
+    .collection("Playlist")
+    .doc(playlistId)
+    .collection("PlaylistQueue")
+    .get();
+  
+  await Promise.all(playlistQueueCollection.docs.map(doc => doc.ref.delete()));
+}
 
 export async function addSongToPlaylistQueue(
   playlistId: PlaylistID,
