@@ -3,6 +3,8 @@ import { Typography, List } from "antd";
 import useOpenedPlaylistQueue from "../../state/openedPlaylistQueue";
 import useOpenedPlaylistSongs from "../../state/openedPlaylistSongs";
 
+import useSongContextMenu from "./useSongContextMenu";
+
 import SongListItem from "../SongListItem";
 
 const { Title } = Typography;
@@ -10,6 +12,7 @@ const { Title } = Typography;
 export default function PlaylistPlayerQueue() {
   const [{ openedPlaylistSongs }] = useOpenedPlaylistSongs();
   const [{ openedPlaylistQueueSorted }] = useOpenedPlaylistQueue();
+  const getSongContextMenu = useSongContextMenu();
 
   if (openedPlaylistQueueSorted === null || !openedPlaylistQueueSorted.length) {
     return <List locale={{ emptyText: "0 songs in the queue" }} />;
@@ -27,7 +30,10 @@ export default function PlaylistPlayerQueue() {
     const song = songsByHash.get(playlistQueueItem.songHash);
 
     return (
-      <SongListItem song={song} />
+      <SongListItem
+        song={song}
+        getContextMenu={() => getSongContextMenu(playlistQueueItem)}
+      />
     );
   };
 

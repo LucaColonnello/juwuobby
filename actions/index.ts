@@ -5,3 +5,4 @@ export { default as useLoadLocalPlaylistSongs } from "./useLoadLocalPlaylistSong
 export { default as usePlayNextSong } from "./usePlayNextSong";
 export { default as usePlaySong } from "./usePlaySong";
 export { default as useAddSongToPlaylistQueue } from "./useAddSongToPlaylistQueue";
+export { default as useRemoveSongFromPlaylistQueue } from "./useRemoveSongFromPlaylistQueue";
