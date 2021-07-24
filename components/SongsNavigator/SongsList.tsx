@@ -1,15 +1,16 @@
 import { useAtomValue } from "jotai/utils";
-import { List } from 'antd';
+import { List, Menu } from 'antd';
 
 import { currentPlaylistSongsAtom } from "./state";
 import SongListItem from "../SongListItem";
 
-import type { ReactNode } from "react";
+import type { ReactElement, ReactNode } from "react";
 import type { Song, SongHash } from '../../types';
 
 export interface SongsListProps {
   songs: SongHash[];
   getActions?: (song: Song) => ReactNode[];
+  getContextMenu?: (song: Song) => ReactElement<Menu>;
   onClick?: (song: Song) => void;
   onDoubleClick?: (song: Song) => void;
 }
@@ -17,6 +18,7 @@ export interface SongsListProps {
 export default function SongsList({
   songs = [],
   getActions,
+  getContextMenu,
   onClick = () => {},
   onDoubleClick = () => {},
 }: SongsListProps) {
@@ -45,6 +47,7 @@ export default function SongsList({
             getActions={getActions}
             onClick={onClick}
             onDoubleClick={onDoubleClick}
+            getContextMenu={getContextMenu}
           />
         );
       }}

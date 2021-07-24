@@ -1,10 +1,10 @@
-import { Empty, Typography } from 'antd';
+import { Empty, Menu, Typography } from 'antd';
 
 import LoadingSpinner from "../LoadingSpinner";
 import DirsList from './DirsList';
 import SongsList from './SongsList';
 
-import type { ReactNode } from 'react';
+import type { ReactElement, ReactNode } from 'react';
 import type { Dir, Song } from '../../types';
 
 const { Text } = Typography;
@@ -15,6 +15,7 @@ export interface NavigableListProps {
   onSongClick?: (song: Song) => void;
   onSongDoubleClick?: (song: Song) => void;
   getSongActions?: (song: Song) => ReactNode[];
+  getSongContextMenu?: (song: Song) => ReactElement<Menu>;
 }
 
 export default function NavigableList({
@@ -23,6 +24,7 @@ export default function NavigableList({
   onSongClick = () => {},
   onSongDoubleClick = () => {},
   getSongActions,
+  getSongContextMenu,
 }: NavigableListProps) {
   if (dir === null) {
     return (
@@ -44,6 +46,7 @@ export default function NavigableList({
         getActions={getSongActions}
         onClick={onSongClick}
         onDoubleClick={onSongDoubleClick}
+        getContextMenu={getSongContextMenu}
       />
     );
   }

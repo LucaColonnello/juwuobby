@@ -1,4 +1,4 @@
-import { memo, useState } from "react";
+import { memo, MouseEventHandler, useState } from "react";
 import { Button, ButtonProps } from "antd";
 import {
   PlusCircleOutlined,
@@ -47,7 +47,10 @@ function AddSongToQueueButton({ song }: AddSongToQueueButtonProps) {
     useState<AddSongToQueueStates>(AddSongToQueueStates.idle);
   const addSongToPlaylistQueue = useAddSongToPlaylistQueue();
   
-  const onAddToQueueClick = async () => {
+  const onAddToQueueClick: MouseEventHandler = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
     try {
       setAddSongToQueueState(AddSongToQueueStates.adding);
 
@@ -66,7 +69,7 @@ function AddSongToQueueButton({ song }: AddSongToQueueButtonProps) {
 
   return (
     <Button
-      size="small"
+      type="text"
       onClick={onAddToQueueClick}
       {...buttonPropsByAddSongToQueueStates[addSongToQueueState]}
     >

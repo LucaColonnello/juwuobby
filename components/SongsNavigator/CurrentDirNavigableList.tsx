@@ -6,19 +6,21 @@ import NavigableList from './NavigableList';
 
 import { currentDirAtom, navigateForwardAtom } from "./state";
 
-import type { ReactNode } from "react";
+import type { ReactElement, ReactNode } from "react";
 import type { Dir, Song } from "../../types";
 
 export interface CurrentDirNavigableListProps {
-  getSongActions?: (song: Song) => ReactNode[];
   onSongClick?: (song: Song) => void;  
   onSongDoubleClick?: (song: Song) => void;  
+  getSongActions?: (song: Song) => ReactNode[];
+  getSongContextMenu?: (song: Song) => ReactElement;
 }
 
 export default function CurrentDirNavigableList({
-  getSongActions,
   onSongClick,
   onSongDoubleClick,
+  getSongActions,
+  getSongContextMenu,
 }: CurrentDirNavigableListProps) {
   const [currentDir] = useAtom(currentDirAtom);
   const navigateForward = useUpdateAtom(navigateForwardAtom);
@@ -39,6 +41,7 @@ export default function CurrentDirNavigableList({
       onSongClick={onSongClick}
       onSongDoubleClick={onSongDoubleClick}
       getSongActions={getSongActions}
+      getSongContextMenu={getSongContextMenu}
     />
   );
 }

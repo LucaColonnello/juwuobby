@@ -1,37 +1,33 @@
 import { useEffect } from "react";
 import { notification } from "antd";
 
-import { usePlaySong } from "../../actions";
+import { usePlaySong, useLoadLocalPlaylistSongs } from "../../actions";
+import useOpenedPlaylistSongs from "../../state/openedPlaylistSongs";
+
+import useSongContextMenu from "./useSongContextMenu";
 
 import SongsPicker from "./SongsPicker";
 import SongsNavigator from "../SongsNavigator";
-
-import { useLoadLocalPlaylistSongs } from "../../actions";
-import useOpenedPlaylistSongs from "../../state/openedPlaylistSongs";
-import AddSongToQueueButton from "../AddSongToQueueButton";
 
 export default function PlaylistSongs() {
   const [{ openedPlaylistSongs }] = useOpenedPlaylistSongs();
   const loadLocalPlaylistSongs = useLoadLocalPlaylistSongs();
   const playSong = usePlaySong();
 
-  const loadPlaylistSongs = async () => {
-    try {
-      await loadLocalPlaylistSongs();
-    } catch (error) {
-      console.error(error);
-      notification.error({
-        key: "playlist_songs_error",
-        message: "Oh snap!",
-        description:
-          "There was an error while loading your playlist. Please contact the monkey developer 🐒 .",
-        duration: 5
-      });
-    }
-  };
+  const getSongContextMenu = useSongContextMenu();
 
   useEffect(() => {
-    loadPlaylistSongs();
+    loadLocalPlaylistSongs()
+      .catch((error) => {
+        console.error(error);
+        notification.error({
+          key: "playlist_songs_error",
+          message: "Oh snap!",
+          description:
+            "There was an error while loading your playlist. Please contact the monkey developer 🐒 .",
+          duration: 5
+        });
+      });
   }, []);
 
   return (
@@ -42,9 +38,7 @@ export default function PlaylistSongs() {
           <SongsNavigator
             playlistSongs={openedPlaylistSongs}
             onSongDoubleClick={playSong}
-            getSongActions={(song) => [
-              <AddSongToQueueButton key="addToQueueAction" song={song} />
-            ]}
+            getSongContextMenu={getSongContextMenu}
           />
         )}
       </div>
