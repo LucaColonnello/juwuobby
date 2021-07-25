@@ -3,7 +3,8 @@ import { useState } from "react";
 import * as FileSystemService from "../utils/FileSystem";
 import waitFor from "../utils/waitFor";
 
-import * as LocalPlaylists from "../repositories/LocalPlaylists";
+import * as PlaylistsRepository from "../repositories/Playlists";
+import * as LocalPlaylistsRepository from "../repositories/LocalPlaylists";
 import useOpenedPlaylist from "../state/openedPlaylist";
 import useOpenedPlaylistSongs from "../state/openedPlaylistSongs";
 
@@ -51,10 +52,11 @@ export default function usePickPlaylistSongs(): StatefullAction<
         await waitFor(1000);
 
         setCurrentStage(PickPlaylistSongsStages.syncWithServer);
-        // TODO: online repository
+        await PlaylistsRepository.emptyPlaylistSongs(openedPlaylist.id);
+        await PlaylistsRepository.savePlaylistSongs(openedPlaylist.id, playlistSongs);
+        await LocalPlaylistsRepository.saveLocalPlaylistSongs(playlistSongs);
         await waitFor(1000);
 
-        LocalPlaylists.saveLocalPlaylistSongs(playlistSongs);
         setCurrentStage(PickPlaylistSongsStages.idle);
         setOpenedPlaylistSongs(playlistSongs);
       } catch (error) {

@@ -29,14 +29,18 @@ export default function useLoadLocalPlaylistSongs(): Action<() => Promise<void>>
       okText: 'Yes',
       cancelText: 'No',
       onOk: async () => {
-        if (!await FileSystemService.verifyPermission(playlistSongs.dirHandle, false)) {
-          return;
+        try {
+          if (!await FileSystemService.verifyPermission(playlistSongs.dirHandle, false)) {
+            return;
+          }
+  
+          const files = await FileSystemService.getFilesFromDirectory(playlistSongs.dirHandle, true);
+          playlistSongs = addPlaylistSongsSongFiles(playlistSongs, files);
+      
+          setOpenedPlaylistSongs(playlistSongs);
+        } catch (error) {
+          console.error(error);
         }
-
-        const files = await FileSystemService.getFilesFromDirectory(playlistSongs.dirHandle, true);
-        playlistSongs = addPlaylistSongsSongFiles(playlistSongs, files);
-    
-        setOpenedPlaylistSongs(playlistSongs);
       }
     });
   };

@@ -19,6 +19,7 @@
     "lodash.has": "^4.5.2",
     "lodash.sortedlastindexby": "^4.6.0",
     "next": "^11.0.1",
+    "pako": "^2.0.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-h5-audio-player": "3.7.1",
@@ -28,5 +29,8 @@
   },
   "license": "MIT",
   "keywords": [],
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "@types/pako": "^1.0.2"
+  }
 }
