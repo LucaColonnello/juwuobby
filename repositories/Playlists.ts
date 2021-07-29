@@ -13,6 +13,13 @@ export async function createPlaylist(
   return createdPlaylist.id;
 }
 
+export async function getPlaylistById(
+  playlistId: PlaylistID
+): Promise<Playlist> {
+  const playlistDoc = await db.collection("Playlist").doc(playlistId).get();
+  return { id: playlistDoc.id, ...playlistDoc.data() } as Playlist;
+}
+
 export async function deletePlaylistById(
   playlistId: PlaylistID
 ): Promise<void> {
@@ -34,7 +41,6 @@ export async function emptyPlaylistSongs(
     playlistSongsChunksCollection.docs.map(doc => doc.ref.delete())
   );
 }
-
 
 export async function savePlaylistSongs(
   playlistId: PlaylistID,

@@ -1,7 +1,7 @@
 import { Modal } from "antd";
 import * as FileSystemService from "../utils/FileSystem";
 
-import * as LocalPlaylists from "../repositories/LocalPlaylists";
+import * as LocalPlaylistsRepository from "../repositories/LocalPlaylists";
 import useOpenedPlaylist from "../state/openedPlaylist";
 import useOpenedPlaylistSongs from "../state/openedPlaylistSongs";
 
@@ -18,7 +18,7 @@ export default function useLoadLocalPlaylistSongs(): Action<() => Promise<void>>
       return;
     }
 
-    let playlistSongs = await LocalPlaylists.getLocalPlaylistSongsById(openedPlaylist.id);
+    let playlistSongs = await LocalPlaylistsRepository.getLocalPlaylistSongsById(openedPlaylist.id);
     if (playlistSongs === null) {
       return;
     }

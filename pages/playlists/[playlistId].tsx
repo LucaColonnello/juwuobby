@@ -8,20 +8,23 @@ import LoadingSpinner from "../../components/LoadingSpinner";
 import PlaylistPlayer from "../../components/PlaylistPlayer";
 import PlaylistSongs from "../../components/PlaylistSongs";
 
+import { useLoadLocalPlaylist } from "../../actions";
 import useOpenedPlaylist from "../../state/openedPlaylist";
 
-import { PlaylistID } from "../../types";
+import type { PlaylistID } from "../../types";
 
 export default function PlaylistPage() {
   const router = useRouter();
-  const [openedPlaylist, { setOpenedPlaylist }] = useOpenedPlaylist();
+  const [openedPlaylist] = useOpenedPlaylist();
+  const loadLocalPlaylist = useLoadLocalPlaylist();
+  
 
   const { playlistId } = router.query as {
     playlistId: PlaylistID;
   };
 
   useEffect(() => {
-    setOpenedPlaylist(playlistId);
+    loadLocalPlaylist(playlistId);
   }, [playlistId]);
 
   if (openedPlaylist === null) {
