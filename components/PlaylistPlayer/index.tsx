@@ -1,11 +1,7 @@
-import { usePlaylistQueueSubscription } from "../../effects";
-
 import PlaylistPlayerControls from "./PlaylistPlayerControls";
 import PlaylistPlayerQueue from "./PlaylistPlayerQueue";
 
 export default function PlaylistPlayer() {
-  usePlaylistQueueSubscription();
-
   return (
     <>
       <div className="PlaylistPlayer">

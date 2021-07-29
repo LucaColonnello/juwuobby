@@ -17,7 +17,6 @@ export default function PlaylistPage() {
   const router = useRouter();
   const [openedPlaylist] = useOpenedPlaylist();
   const loadLocalPlaylist = useLoadLocalPlaylist();
-  
 
   const { playlistId } = router.query as {
     playlistId: PlaylistID;

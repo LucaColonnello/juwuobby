@@ -14,7 +14,7 @@ export default function Header() {
     return null;
   }
 
-  const canGoBack = navigationHistory.length > 1;
+  const canGoBack = navigationHistory.split("/").length > 1;
 
   const onBack = () => {
     if (canGoBack) {
