@@ -1,3 +1,4 @@
+export * from "./User";
 export * from "./Playlist";
 export * from "./PlaylistSongs";
 export * from "./PlaylistQueue";

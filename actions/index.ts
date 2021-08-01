@@ -1,3 +1,6 @@
+export { default as useLogin } from "./useLogin";
+export { default as useLoginAsGuest } from "./useLoginAsGuest";
+export { default as useLogout } from "./useLogout";
 export { default as useCreateNewPlaylist } from "./useCreateNewPlaylist";
 export { default as useDeletePlaylist } from "./useDeletePlaylist";
 export { default as useLoadLocalPlaylist } from "./useLoadLocalPlaylist";

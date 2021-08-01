@@ -1,13 +1,17 @@
 import { Typography } from "antd";
+
+import withAuthContainer from "../components/AuthContainer";
+import Logout from "../components/AuthContainer/Logout";
 import CreatePlaylistModal from "../components/CreatePlaylistModal";
 import LocalPlaylistsList from "../components/LocalPlaylistsList";
 
 const { Title } = Typography;
 
-export default function IndexPage() {
+export function IndexPage() {
   return (
     <div className="IndexPage">
       <Title level={2}>⏯ Welcome to Juwuobby</Title>
+      <Logout /><br />
       <CreatePlaylistModal />
 
       <section className="LocalPlaylistsListContainer">
@@ -31,3 +35,5 @@ export default function IndexPage() {
     </div>
   );
 }
+
+export default withAuthContainer(IndexPage);
