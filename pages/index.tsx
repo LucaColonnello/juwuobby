@@ -1,4 +1,5 @@
-import { Typography } from "antd";
+import { Button, Typography, Tooltip } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
 
 import withAuthContainer from "../components/AuthContainer";
 import Logout from "../components/AuthContainer/Logout";
@@ -17,8 +18,19 @@ export function IndexPage() {
     <div className="IndexPage">
       <Title level={2}>⏯ Welcome to Juwuobby</Title>
       <Logout /><br />
-      {loggedInUser && canCreateNewPlaylist(loggedInUser) && (
+      {loggedInUser && canCreateNewPlaylist(loggedInUser) ? (
         <CreatePlaylistModal />
+      ) : (
+        <Tooltip title="Sign in using Google or Facebook to create new playlist">
+          <Button
+            type="primary"
+            shape="round"
+            disabled
+            icon={<PlusOutlined />}
+          >
+            Create new playlist
+          </Button>
+        </Tooltip>
       )}
 
       <section className="LocalPlaylistsListContainer">
