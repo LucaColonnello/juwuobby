@@ -5,11 +5,14 @@ import waitFor from "../utils/waitFor";
 
 import * as PlaylistsRepository from "../repositories/Playlists";
 import * as LocalPlaylistsRepository from "../repositories/LocalPlaylists";
+
+import useLoggedInUser from "../state/loggedInUser";
 import useOpenedPlaylist from "../state/openedPlaylist";
 import useOpenedPlaylistSongs from "../state/openedPlaylistSongs";
 
 import { createPlaylistSongsFromDirAndFiles } from "../domain/entities/playlistSongs";
 import validateFileHandleByName from "../domain/services/validateFileHandleByName";
+import canAddSongsToPlaylist from "../domain/services/canAddSongsToPlaylist";
 
 import type { StatefullAction } from "../types";
 
@@ -28,14 +31,26 @@ export default function usePickPlaylistSongs(): StatefullAction<
 > {
   const [currentStage, setCurrentStage] =
     useState<PickPlaylistSongsStages>(PickPlaylistSongsStages.idle);
+  const [loggedInUser] = useLoggedInUser();
   const [openedPlaylist] = useOpenedPlaylist();
   const [, { setOpenedPlaylistSongs }] = useOpenedPlaylistSongs();
 
   return [
     { currentStage },
     async function pickPlaylistSongs() {
-      if (openedPlaylist === false || openedPlaylist === null) {
+      if (loggedInUser === null || loggedInUser === false) {
+        throw new Error("Cannot add songs to playlist. Missing logged in user.");
+      }
+  
+      if (
+        openedPlaylist === null ||
+        openedPlaylist === false
+      ) {
         return;
+      }
+  
+      if (!canAddSongsToPlaylist(loggedInUser, openedPlaylist)) {
+        throw new Error("Logged in user does not have permissions to add songs to this playlist.");
       }
 
       try {

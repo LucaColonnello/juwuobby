@@ -8,7 +8,7 @@ import { Playlist } from "../../types";
 interface DeletePlaylistButtonProps {
   size?: "medium" | "small";
   onDelete?: () => void;
-  playlist: Partial<Playlist>;
+  playlist: Playlist;
 }
 
 export default function DeletePlaylistButton({
@@ -24,7 +24,7 @@ export default function DeletePlaylistButton({
       icon: <ExclamationCircleOutlined />,
       content: `Are you sure you want to delete "${playlist.name}"?`,
       onOk() {
-        deletePlaylist(playlist.id);
+        deletePlaylist(playlist);
         onDelete();
       }
     });

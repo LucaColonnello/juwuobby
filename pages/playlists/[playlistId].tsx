@@ -2,6 +2,7 @@ import { Suspense, useEffect } from "react";
 import { useRouter } from "next/router";
 import { Result, Button, PageHeader } from "antd";
 
+import withAuthContainer from "../../components/AuthContainer";
 import SplitPane from "../../components/SplitPane";
 import DeletePlaylistButton from "../../components/DeletePlaylistButton";
 import LoadingSpinner from "../../components/LoadingSpinner";
@@ -9,12 +10,15 @@ import PlaylistPlayer from "../../components/PlaylistPlayer";
 import PlaylistSongs from "../../components/PlaylistSongs";
 
 import { useLoadLocalPlaylist } from "../../actions";
+import useLoggedInUser from "../../state/loggedInUser";
 import useOpenedPlaylist from "../../state/openedPlaylist";
 
 import type { PlaylistID } from "../../types";
+import canDeletePlaylist from "../../domain/services/canDeletePlaylist";
 
-export default function PlaylistPage() {
+function PlaylistPage() {
   const router = useRouter();
+  const [loggedInUser] = useLoggedInUser();
   const [openedPlaylist] = useOpenedPlaylist();
   const loadLocalPlaylist = useLoadLocalPlaylist();
 
@@ -63,14 +67,16 @@ export default function PlaylistPage() {
         title="⏯  Juwuobby"
         subTitle={openedPlaylist.name}
         extra={[
-          <DeletePlaylistButton
-            key="delete"
-            size="medium"
-            playlist={openedPlaylist}
-            onDelete={() => {
-              router.push("/");
-            }}
-          />
+          (loggedInUser && canDeletePlaylist(loggedInUser, openedPlaylist)) ? (
+            <DeletePlaylistButton
+              key="delete"
+              size="medium"
+              playlist={openedPlaylist}
+              onDelete={() => {
+                router.push("/");
+              }}
+            />
+          ) : null
         ]}
       />
 
@@ -118,3 +124,5 @@ export default function PlaylistPage() {
     </div>
   );
 }
+
+export default withAuthContainer(PlaylistPage);

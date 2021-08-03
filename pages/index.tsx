@@ -5,14 +5,21 @@ import Logout from "../components/AuthContainer/Logout";
 import CreatePlaylistModal from "../components/CreatePlaylistModal";
 import LocalPlaylistsList from "../components/LocalPlaylistsList";
 
+import useLoggedInUser from "../state/loggedInUser";
+import canCreateNewPlaylist from "../domain/services/canCreateNewPlaylist";
+
 const { Title } = Typography;
 
 export function IndexPage() {
+  const [loggedInUser] = useLoggedInUser();
+
   return (
     <div className="IndexPage">
       <Title level={2}>⏯ Welcome to Juwuobby</Title>
       <Logout /><br />
-      <CreatePlaylistModal />
+      {loggedInUser && canCreateNewPlaylist(loggedInUser) && (
+        <CreatePlaylistModal />
+      )}
 
       <section className="LocalPlaylistsListContainer">
         <LocalPlaylistsList />

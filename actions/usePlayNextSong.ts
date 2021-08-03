@@ -1,9 +1,10 @@
 import * as PlaylistsQueueRepository from "../repositories/PlaylistsQueue";
-import pickRandomSongFromPlaylist from "../domain/services/pickRandomSongFromPlaylist";
+
 
 import useOpenedPlaylistSongs from "../state/openedPlaylistSongs";
 import useOpenedPlaylistQueue from "../state/openedPlaylistQueue";
 import useCurrentlyPlayingSong from "../state/currentlyPlayingSong";
+import pickRandomSongFromPlaylist from "../domain/services/pickRandomSongFromPlaylist";
 
 import type { Action } from "../types";
 

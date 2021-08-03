@@ -4,6 +4,7 @@ import { Button, Result, PageHeader, Typography } from "antd";
 import { UnorderedListOutlined, CloseOutlined } from "@ant-design/icons";
 import cx from "classname";
 
+import withAuthContainer from "../../../components/AuthContainer";
 import LoadingSpinner from "../../../components/LoadingSpinner";
 import PublicPlaylistSongs from "../../../components/PublicPlaylistSongs";
 import PlaylistQueue from "../../../components/PlaylistQueue";
@@ -11,11 +12,11 @@ import PlaylistQueue from "../../../components/PlaylistQueue";
 import { useLoadRemotePlaylist } from "../../../actions";
 import useOpenedPlaylist from "../../../state/openedPlaylist";
 
-import { PlaylistID } from "../../../types";
+import type { PlaylistID } from "../../../types";
 
 const { Title } = Typography;
 
-export default function PlaylistPublicPage() {
+function PlaylistPublicPage() {
   const [queueOpened, setQueueOpened] = useState(false);
   const router = useRouter();
   const [openedPlaylist] = useOpenedPlaylist();
@@ -151,3 +152,5 @@ export default function PlaylistPublicPage() {
     </>
   );
 }
+
+export default withAuthContainer(PlaylistPublicPage);
