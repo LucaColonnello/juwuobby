@@ -13,3 +13,4 @@ export { default as usePlaySong } from "./usePlaySong";
 export { default as useAddSongToPlaylistQueue } from "./useAddSongToPlaylistQueue";
 export { default as useRemoveSongFromPlaylistQueue } from "./useRemoveSongFromPlaylistQueue";
 export { default as useRemoveAllSongsFromPlaylistQueue } from "./useRemoveAllSongsFromPlaylistQueue";
+export { default as useGenerateQRCode } from "./useGenerateQRCode";

@@ -4,6 +4,7 @@ import { Result, Button, PageHeader } from "antd";
 
 import withAuthContainer from "../../components/AuthContainer";
 import SplitPane from "../../components/SplitPane";
+import GenerateQRCodeButton from "../../components/GenerateQRCodeButton";
 import DeletePlaylistButton from "../../components/DeletePlaylistButton";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import PlaylistPlayer from "../../components/PlaylistPlayer";
@@ -12,9 +13,9 @@ import PlaylistSongs from "../../components/PlaylistSongs";
 import { useLoadLocalPlaylist } from "../../actions";
 import useLoggedInUser from "../../state/loggedInUser";
 import useOpenedPlaylist from "../../state/openedPlaylist";
+import canDeletePlaylist from "../../domain/services/canDeletePlaylist";
 
 import type { PlaylistID } from "../../types";
-import canDeletePlaylist from "../../domain/services/canDeletePlaylist";
 
 function PlaylistPage() {
   const router = useRouter();
@@ -67,6 +68,10 @@ function PlaylistPage() {
         title="⏯  Juwuobby"
         subTitle={openedPlaylist.name}
         extra={[
+          <GenerateQRCodeButton
+            key="qrcode"
+            playlist={openedPlaylist}
+          />,
           (loggedInUser && canDeletePlaylist(loggedInUser, openedPlaylist)) ? (
             <DeletePlaylistButton
               key="delete"
