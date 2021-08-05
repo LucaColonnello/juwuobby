@@ -2,7 +2,9 @@ import { auth, firebase } from "../../firebase";
 
 import {
   ACCOUNT_ALREADY_EXISTS_WITH_DIFFERENT_CREDENTIALS,
-  INVALID_EMAIL,
+  CANCELLED_POPUP_ERROR,
+  CLOSED_POPUP_ERROR,
+  INVALID_EMAIL_ERROR,
   PASSWORD_SIGN_IN_METHOD,
 } from "./constants";
 import {
@@ -24,6 +26,13 @@ export default async function login(
     const result = await auth.signInWithPopup(getAuthProvider(provider));
     return result.user;
   } catch (error) {
+    if (
+      error.code === CANCELLED_POPUP_ERROR ||
+      error.code === CLOSED_POPUP_ERROR
+    ) {
+      return;
+    }
+
     if (error.code === ACCOUNT_ALREADY_EXISTS_WITH_DIFFERENT_CREDENTIALS) {
       const pendingCredentials = error.credential;
 
@@ -59,7 +68,7 @@ async function fetchSignInMethodForEmail(email) {
 
     return usedSignInMethods[0];
   } catch (error) {
-    if (error.code === INVALID_EMAIL) {
+    if (error.code === INVALID_EMAIL_ERROR) {
       throw new UnsuccessfulLoginError("Invalid email provided");
     }
 
