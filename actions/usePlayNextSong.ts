@@ -11,14 +11,27 @@ import type { Action } from "../types";
 export default function usePlayNextSong(): Action<() => Promise<void>> {
   const [{ openedPlaylistSongs }] = useOpenedPlaylistSongs();
   const [{ openedPlaylistQueueSorted }] = useOpenedPlaylistQueue();
-  const [, { setCurrentlyPlayingSong }] = useCurrentlyPlayingSong();
+  const [{ currentlyPlayingSong }, { setCurrentlyPlayingSong }] = useCurrentlyPlayingSong();
 
   return async function playNextSong() {
-    if (openedPlaylistSongs === null) {
+    if (openedPlaylistSongs === null || openedPlaylistQueueSorted === null) {
       return;
     }
 
-    if (openedPlaylistQueueSorted === null || !openedPlaylistQueueSorted.length) {
+    const isNextSongCurrentlyPlayingSong =
+      openedPlaylistQueueSorted[0]?.songHash === currentlyPlayingSong?.hash;
+
+    if (
+      !openedPlaylistQueueSorted.length ||
+      isNextSongCurrentlyPlayingSong
+    ) {
+      if (isNextSongCurrentlyPlayingSong) {
+        await PlaylistsQueueRepository.deleteSongFromPlaylistQueue(
+          openedPlaylistSongs.id,
+          openedPlaylistQueueSorted[0],
+        );
+      }
+
       const randomSong = pickRandomSongFromPlaylist(openedPlaylistSongs);
       setCurrentlyPlayingSong(randomSong);
       return;
