@@ -4,7 +4,7 @@ import type { ReactElement } from "react";
 
 export interface Command<Data> {
   label: string;
-  run: (data: Data) => Promise<void>;
+  run: (data: Data) => Promise<boolean | void>;
   successText: string;
   errorText?: string;
 };
@@ -22,7 +22,11 @@ export default function useContextMenu<Data>({
   const onContextMenuClick = (data, command) => {
     const { run, successText, errorText } = commands[command];
     run(data)
-      .then(() => {
+      .then((dontNotifySuccess) => {
+        if (dontNotifySuccess === false) {
+          return;
+        }
+
         message.success(successText);
       })
       .catch((error) => {
