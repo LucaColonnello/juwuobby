@@ -16,7 +16,7 @@ function JuwuobbyAppProvider({ Component, pageProps }: AppProps) {
           min-height: 100%;
         }
 
-        * {
+        *:not(input) {
           user-select: none;
         }
       `}</style>
