@@ -1,10 +1,13 @@
 import { atom } from "jotai";
 import { atomWithDefault, RESET } from "jotai/utils";
-import { Dir, PlaylistSongs } from "../../types";
+import Fuse from 'fuse.js';
+
+import { Dir, PlaylistSongs, Song, SongHash } from "../../types";
 
 const getCurrentLocationHash = () => decodeURIComponent(window.location.hash.substring(1));
 
 const currentPlaylistSongsAtom = atom<PlaylistSongs | null>(null);
+const currentSearchAtom = atom<string>("");
 
 const navigationHistoryAtom = atomWithDefault<string>((get) => {
   const playlistSongs = get(currentPlaylistSongsAtom);
@@ -94,6 +97,35 @@ const currentDirAtom = atom<Dir | null>((get) => {
   return currentDir;
 });
 
+const searchIndexAtom = atom<Fuse<Song> | null>((get) => {
+  const playlistSongs = get(currentPlaylistSongsAtom);
+  if (playlistSongs === null) {
+    return null;
+  }
+
+  const indexOptions: Fuse.IFuseOptions<Song> = {
+    includeScore: true,
+    ignoreLocation: true,
+    threshold: 0.2,
+    keys: ['name']
+  };
+
+  const data: Song[] =
+    Array.from(playlistSongs.songsByHash).map(([ , song ]) => song);
+  
+  return new Fuse(data, indexOptions);
+});
+
+const searchResultsAtom = atom<SongHash[] | null>((get) => {
+  const search = get(currentSearchAtom);
+  const searchIndex = get(searchIndexAtom);
+  if (searchIndex === null) {
+    return null;
+  }
+
+  const results = searchIndex.search(search, { limit: 50 });
+  return results.map((song) => song.item.hash);
+});
 
 const songsNavigatorScope = Symbol("songsNavigatorScope");
 
@@ -102,6 +134,9 @@ navigationHistoryAtom.scope = songsNavigatorScope;
 navigateForwardAtom.scope = songsNavigatorScope;
 navigateBackAtom.scope = songsNavigatorScope;
 currentDirAtom.scope = songsNavigatorScope;
+currentSearchAtom.scope = songsNavigatorScope;
+searchIndexAtom.scope = songsNavigatorScope;
+searchResultsAtom.scope = songsNavigatorScope;
 
 export {
   songsNavigatorScope,
@@ -109,5 +144,7 @@ export {
   navigationHistoryAtom,
   navigateForwardAtom,
   navigateBackAtom,
-  currentDirAtom
+  currentDirAtom,
+  currentSearchAtom,
+  searchResultsAtom,
 };

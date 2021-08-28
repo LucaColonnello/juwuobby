@@ -1,12 +1,11 @@
 import { memo, ReactElement, ReactNode } from "react";
+import { Menu } from "antd";
 import { Atom, Provider } from "jotai";
 
-import Header from "./Header";
-import CurrentDirNavigableList from "./CurrentDirNavigableList";
+import SearchOrNavigate from "./SearchOrNavigate";
 import { currentPlaylistSongsAtom, songsNavigatorScope } from "./state";
 
 import type { PlaylistSongs, Song } from "../../types";
-import { Menu } from "antd";
 
 export interface SongsNavigatorProps {
   playlistSongs: PlaylistSongs;
@@ -29,22 +28,12 @@ function SongsNavigator({
 
   return (
     <Provider initialValues={initialValues} scope={songsNavigatorScope}>
-      <div className="HeaderContainer">
-        <Header />
-      </div>
-
-      <CurrentDirNavigableList
+      <SearchOrNavigate
         onSongClick={onSongClick}
         onSongDoubleClick={onSongDoubleClick}
         getSongActions={getSongActions}
         getSongContextMenu={getSongContextMenu}
       />
-
-      <style jsx>{`
-        .HeaderContainer {
-          margin-bottom: 32px;
-        }
-      `}</style>
     </Provider>
   );
 }

@@ -57,6 +57,7 @@ function PlaylistPublicPage() {
             title="⏯  Juwuobby"
             extra={[
               <Button
+                key="toggle_queue"
                 icon={<UnorderedListOutlined />}
                 onClick={() => {
                   setQueueOpened(true);
