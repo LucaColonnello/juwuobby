@@ -21,6 +21,20 @@ export const createPlaylistSongsFromDirAndFiles = (
 
   const dirByName = new Map<string, Dir>();
 
+  const audioExtensions = ['.mp3', '.wav', '.ogg', '.aac', '.flac', '.m4a'];
+  const videoExtensions = ['.mp4', '.mov', '.avi', '.mkv', '.webm', '.flv'];
+
+  const getFileType = (fileName: string): "audio" | "video" => {
+    const extension = fileName.slice(fileName.lastIndexOf('.')).toLowerCase();
+    if (videoExtensions.includes(extension)) {
+      return "video";
+    }
+    if (audioExtensions.includes(extension)) {
+      return "audio";
+    }
+    return "audio"; // Default to audio
+  };
+
   const rootDir: Dir = {
     name: dir.name,
     dirs: [],
@@ -78,6 +92,7 @@ export const createPlaylistSongsFromDirAndFiles = (
     const song: Song = {
       hash: songHash,
       name: file.name,
+      type: getFileType(file.name),
       fileHandle: file,
     };
 

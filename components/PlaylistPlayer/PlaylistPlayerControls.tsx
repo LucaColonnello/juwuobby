@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { Button, Typography } from "antd";
-import { PlayCircleTwoTone } from "@ant-design/icons";
+import { Button, Typography, Modal } from "antd";
+import { PlayCircleTwoTone, FullscreenOutlined } from "@ant-design/icons";
 import AudioPlayer from "react-h5-audio-player";
+import ReactPlayer from "react-player";
 
 import useCurrentlyPlayingSong from "../../state/currentlyPlayingSong";
 import { usePlayNextSong } from "../../actions";
@@ -12,6 +13,7 @@ const { Title } = Typography;
 
 export default function PlaylistPlayerControls() {
   const [currentlyPlayingSongSrc, setCurrentlyPlayingSongSrc] = useState<string>(null);
+  const [isAudioFullscreen, setIsAudioFullscreen] = useState(false);
   const [{ currentlyPlayingSong }] = useCurrentlyPlayingSong();
   const playNextSong = usePlayNextSong();
 
@@ -80,22 +82,73 @@ export default function PlaylistPlayerControls() {
     );
   }
 
-  return (
-    <AudioPlayer
-      layout="stacked"
-      header={
-        <Title type="secondary" level={3}>
-          {currentlyPlayingSong.name}
-        </Title>
-      }
-      showJumpControls={false}
-      showSkipControls={true}
-      customAdditionalControls={[]}
-      autoPlay
-      src={currentlyPlayingSongSrc !== null ? currentlyPlayingSongSrc : undefined}
-      autoPlayAfterSrcChange
-      onClickNext={onClickNext}
-      onEnded={onEnded}
-    />
+  // Display title for both audio and video
+  const songTitleHeader = (
+    <Title type="secondary" level={3}>
+      {currentlyPlayingSong.name}
+    </Title>
   );
+
+  if (currentlyPlayingSong.type === "video") {
+    return (
+      <>
+        {songTitleHeader}
+        <ReactPlayer
+          url={currentlyPlayingSongSrc}
+          controls={true}
+          playing={true}
+          width="100%"
+          height="360px" // Changed from "auto"
+          onEnded={onEnded}
+        />
+      </>
+    );
+  } else { // Assume 'audio' or default to audio
+    const audioPlayerComponent = (
+      <AudioPlayer
+        layout="stacked"
+        header={songTitleHeader}
+        showSkipControls={true}
+        autoPlay
+        src={currentlyPlayingSongSrc}
+        autoPlayAfterSrcChange
+        onClickNext={onClickNext}
+        onEnded={onEnded}
+        customAdditionalControls={[
+          <Button key="fullscreen" onClick={() => setIsAudioFullscreen(true)} icon={<FullscreenOutlined />} />
+        ]}
+      />
+    );
+
+    return (
+      <>
+        {!isAudioFullscreen && audioPlayerComponent}
+
+        <Modal
+          title={songTitleHeader || "Audio Player"}
+          visible={isAudioFullscreen}
+          onCancel={() => setIsAudioFullscreen(false)}
+          footer={null}
+          width="90vw"
+          destroyOnClose 
+        >
+          <AudioPlayer
+            layout="stacked" 
+            header={songTitleHeader} 
+            showSkipControls={true}
+            autoPlay 
+            src={currentlyPlayingSongSrc}
+            autoPlayAfterSrcChange
+            onClickNext={() => {
+              onClickNext();
+            }}
+            onEnded={() => {
+              onEnded(); 
+              setIsAudioFullscreen(false); 
+            }}
+          />
+        </Modal>
+      </>
+    );
+  }
 }

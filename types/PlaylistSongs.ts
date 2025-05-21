@@ -18,5 +18,6 @@ export interface Dir {
 export interface Song {
   hash: SongHash;
   name: string;
+  type: "audio" | "video";
   fileHandle?: EnhancedFile;
 }
